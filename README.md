@@ -3,7 +3,7 @@ This is the home of ClockstaR+G
 
 Instructions for dev:
 
-- (1) Optimise branch lengths for many trees. (This can be parallelised for different sets of trees) -> trees file in NEWICK
+- ~~(1) Optimise branch lengths for many trees. (This can be parallelised for different sets of trees) -> trees file in NEWICK~~
 
 - (2) Make matrix with comparissons and store tree name comparissons as lines in a text file. -> text files with names of pairs of trees
 
