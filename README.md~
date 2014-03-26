@@ -2,7 +2,6 @@ This is the home of ClockstaR+G
 ===============================
 
 Instructions for dev:
---------------------
 
 - ~~(1) Optimise branch lengths for many trees. (This can be parallelised for different sets of trees) -> trees file in NEWICK~~
 
