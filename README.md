@@ -8,7 +8,7 @@ Instructions for dev:
 
 - ~~(2) Make matrix with comparissons and store tree name comparissons as lines in a text file. -> text files with names of pairs of trees~~
 
-- (3) Fetch trees estimated in (1) with names from (2) and estimate *sBSDmin* and *s*. Store in lines with the names of each pair of trees (This can be parallelised for different pairs of trees). -> text file with names of trees and *sBSDmin* and *s*.
+- ~~(3) Fetch trees estimated in (1) with names from (2) and estimate *sBSDmin* and *s*. Store in lines with the names of each pair of trees (This can be parallelised for different pairs of trees). -> text file with names of trees and *sBSDmin* and *s*.~~
 
 - (4) Make 2 matrices to store *sBSDmin* and *s*.
 
