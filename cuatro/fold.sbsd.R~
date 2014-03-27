@@ -11,26 +11,16 @@ if(is.null(comps.range)) comps.range <- 1:length(tree.names)
 # Memory lite version
 #####################
 
-t1 <- proc.time()
-
 for(i in comps.range[2:length(comps.range)]){
   comps.names <- paste(tree.names[i], tree.names[1:i-1])
   dat.name <- tree.names[i]
   dat.sbsd <- vector()
   dat.s <- vector()
-  comps.awk <- system(paste0("awk '", paste0("/", comps.names, "/", collapse = " || "), "' ", comps.file), intern = T)
-
-  comps.text <- strsplit(comps.awk, " ")
-
-  dat.sbsd <- sapply(1:length(comps.text), function(x) return(comps.text[[x]][3]))
-  dat.s <- sapply(1:length(comps.text), function(x) return(comps.text[[x]][4]))
-
-#  for(k in 1:length(comps.text)){
-#    comps.dat <- strsplit(comps.text[k], " ")[[1]]
-#    comps.dat <- strsplit(system(paste0("awk '/", comps.names[k], "/' ", comps.file), intern =T), split = " ")[[1]]
-#    dat.sbsd <- c(dat.sbsd, comps.dat[3])
-#    dat.s <- c(dat.s, comps.dat[4])
-#  }
+  for(k in 1:length(comps.names)){
+    comps.dat <- strsplit(system(paste0("awk '/", comps.names[k], "/' ", comps.file), intern =T), split = " ")[[1]]
+    dat.sbsd <- c(dat.sbsd, comps.dat[3])
+    dat.s <- c(dat.s, comps.dat[4])
+  }
   dat.sbsd <- c(dat.sbsd, rep(NA, length(tree.names) - i))
   dat.s <- c(dat.s, rep(NA, length(tree.names) - i))
 
@@ -41,11 +31,6 @@ for(i in comps.range[2:length(comps.range)]){
   print(paste(dat.name, paste(dat.s, collapse = " ")))
 
 }
-
-
-t2 <- proc.time()
-
-print(t2 - t1)
 
 
 # Memory intensive version
