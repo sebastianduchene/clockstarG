@@ -3,6 +3,10 @@
 #out.name <- "test.fold.txt"
 #comps.range <- 1:5
 
+#NEED TO ADD THE FIRST TREE NAME WITH NAS
+
+
+
 fold.sbsd <- function(trees.file, comps.file, out.name = "test.fold.txt", method = "lite", comps.range = NULL){
 
   tree.names <- system(paste("awk '{print $1}' FS='('", trees.file), intern = T)
