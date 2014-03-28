@@ -65,7 +65,7 @@ fold.sbsd <- function(trees.file, comps.file, out.name = "test.fold.txt", method
       print(paste(dat.s, collapse = " "))
     }
     t2 <- proc.time()
-    print("FOLDING THE DISTANCES FOR WITH MEMORY MODE TOOK")
+    print("FOLDING THE DISTANCES FOR WITH LITE MODE TOOK")
     print(t2 - t1)
   }
 
