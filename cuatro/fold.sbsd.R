@@ -24,7 +24,7 @@ fold.sbsd <- function(trees.file, comps.file, out.name = "test.fold.txt", method
     comps.names <- paste(tree.names[i], tree.names[1:i-1])
     dat.name <- tree.names[i]
     comps.awk <- system(paste0("awk '", paste0("/", comps.names, "/", collapse = " || "), "' ", comps.file), intern = T)
-
+#add error message if a tree is not found
     comps.text <- strsplit(comps.awk, " ")
 
     dat.all <- sapply(1:length(comps.text), function(x) return(comps.text[[x]][3:4]), USE.NAMES = F)
