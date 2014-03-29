@@ -3,9 +3,6 @@
 #out.name <- "test.fold.txt"
 #comps.range <- 1:5
 
-#NEED TO ADD THE FIRST TREE NAME WITH NAS
-# FIRST CAT WITH NAME OF THE FIRST TREE AND THEN REP(NA, LENGTH TREE NAMES -1)
-
 
 
 fold.sbsd <- function(trees.file, comps.file, out.name = "test.fold.txt", method = "lite", comps.range = NULL){
@@ -13,6 +10,9 @@ fold.sbsd <- function(trees.file, comps.file, out.name = "test.fold.txt", method
   tree.names <- system(paste("awk '{print $1}' FS='('", trees.file), intern = T)
 
   if(is.null(comps.range)) comps.range <- 1:length(tree.names)
+
+  cat(paste(c(tree.names[1], rep(NA, length(tree.names) - 1)), collapse = " "), file = paste0("sbsd", out.name), append = T, sep = "\n" )
+  cat(paste(c(tree.names[1], rep(NA, length(tree.names) - 1)), collapse = " "), file = paste0("s", out.name), append = T, sep = "\n" )
 
   if(method == "lite"){
   # Memory lite version
@@ -24,14 +24,19 @@ fold.sbsd <- function(trees.file, comps.file, out.name = "test.fold.txt", method
     comps.names <- paste(tree.names[i], tree.names[1:i-1])
     dat.name <- tree.names[i]
     comps.awk <- system(paste0("awk '", paste0("/", comps.names, "/", collapse = " || "), "' ", comps.file), intern = T)
-#add error message if a tree is not found
-    comps.text <- strsplit(comps.awk, " ")
+    
+    if(length(comps.awk) == 0){
+      dat.sbsd <- rep(NA, length(tree.names) - 1)
+      dat.s <- rep(NA, length(tree.names) - 1)
+      print(paste("sBSDmin and s for tree", tree.names[i], "not found. Filling with NA"))
+    }else{
+      comps.text <- strsplit(comps.awk, " ")
 
-    dat.all <- sapply(1:length(comps.text), function(x) return(comps.text[[x]][3:4]), USE.NAMES = F)
+      dat.all <- sapply(1:length(comps.text), function(x) return(comps.text[[x]][3:4]), USE.NAMES = F)
 
-    dat.sbsd <- dat.all[1, ]
-    dat.s <- dat.all[2, ]
-
+      dat.sbsd <- dat.all[1, ]
+      dat.s <- dat.all[2, ]
+    }
     dat.sbsd <- c(dat.sbsd, rep(NA, length(tree.names) - i))
     dat.s <- c(dat.s, rep(NA, length(tree.names) - i))
 
@@ -60,9 +65,15 @@ fold.sbsd <- function(trees.file, comps.file, out.name = "test.fold.txt", method
     for(i in comps.range[2:length(comps.range)]){
       comps.names <- paste(tree.names[i], tree.names[1:i-1])
       dat.name <- tree.names[i]
-      dat.all <- sapply(comps.names, function(x) return(comps.dat[comps.dat[,1]== x, 2:3]), USE.NAMES = F)
-      dat.sbsd <- c(unlist(dat.all[1, ]), rep(NA, length(tree.names) - i))
-      dat.s <- c(unlist(dat.all[2, ]), rep(NA, length(tree.names) - i))
+      if(all(comps.names %in% comps.dat[, 1])){
+        dat.all <- sapply(comps.names, function(x) return(comps.dat[comps.dat[,1]== x, 2:3]), USE.NAMES = F)
+        dat.sbsd <- c(unlist(dat.all[1, ]), rep(NA, length(tree.names) - i))
+        dat.s <- c(unlist(dat.all[2, ]), rep(NA, length(tree.names) - i))
+      }else{
+        dat.sbsd <- rep(NA, length(tree.names) - 1)
+	dat.s <- rep(NA, length(tree.names) -1)
+	print(paste("sBSDmin for tree", tree.names[i], "not found. Filling with NA"))
+      }
       cat(paste(dat.name, paste(dat.sbsd, collapse = " ")), file = paste0("sbsd", out.name), append = T, sep = "\n")
       cat(paste(dat.name, paste(dat.s, collapse = " ")), file = paste0("s", out.name), append = T, sep = "\n")
       print(paste("WRITTING DISTANCES FOR TREE", dat.name))
