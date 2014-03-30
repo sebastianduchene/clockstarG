@@ -1,0 +1,4 @@
+
+matrix.name <- "fullmat.txt"
+
+dat.matrix <- read.table(matrix.name, head = T, row.names = 1)
