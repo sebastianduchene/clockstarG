@@ -13,7 +13,7 @@ Instructions for dev:
 - ~~(4) Make 2 matrices to store *sBSDmin* and *s*.~~
 
     - ~~(4.1) Fold *sBSDmin* and *s* from (3) and save in the matrices in (4).-> text file with the matrix with NA for diagonal and above diagonal~~
-    - (4.2)  Complete diagonal and upper diagonal of the matrices. -> text file with the matrix ( it should include colnames (which are thesame as the rownames))
+    - ~~(4.2)  Complete diagonal and upper diagonal of the matrices. -> text file with the matrix ( it should include colnames (which are thesame as the rownames))~~
 
 - (5) Run IRLBA on the matrix from (4.1) with two or three dimensions.
 
