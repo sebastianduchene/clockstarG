@@ -15,10 +15,12 @@ Instructions for dev:
     - ~~(4.1) Fold *sBSDmin* and *s* from (3) and save in the matrices in (4).-> text file with the matrix with NA for diagonal and above diagonal~~
     - ~~(4.2)  Complete diagonal and upper diagonal of the matrices. -> text file with the matrix ( it should include colnames (which are thesame as the rownames))~~
 
-- (5) Run IRLBA on the matrix from (4.2) with two or three dimensions.
+- ~~(5) Run IRLBA on the matrix from (4.2) with two or three dimensions.~~
 
-    - (5.1) Store IRLBA matrix and the *d* values. -> text file with the IRLBA dimesion reduced data, text file with the *d* values, and text file with singlurar vectors.
+    - ~~(5.1) Store IRLBA matrix and the *d* values. -> text file with the IRLBA dimesion reduced data, text file with the *d* values, and text file with singlurar vectors.~~
 
-- (6) Run CLARA for a range of k. (This can be parallelised of different ranges of k)
+TEST TAHT CLARA CAN DETECT K IN THE DATA SET
 
-    - (6.1) Save k and logW. -> text file with k and the logW
+- ~~(6) Run CLARA for a range of k. (This can be parallelised of different ranges of k)~~
+
+    - ~~(6.1) Save k and logW. -> text file with k and the logW~~
