@@ -6,10 +6,8 @@ run.clara <- function(clus.matrix.name, out.clus.name = "out_clus_test.txt", k.r
   require(cluster)
 
 
-  if(is.null(k.range)) k.range <- 2:(nrow(dat.matrix) - 1)
+  if(is.null(k.range)) k.range <- 2:(nrow(dat.clus) - 1)
 
-  print("THE VARIANCE EXPLAINED BY THE FIRST THREE LEFT SINGULAR VECTORS IS: ")
-  print(paste0(round(100* (dat.irlba$d / sum(dat.irlba$d)), 2), "%"))
 
   print("I WILL START COMPUTING LOGW WITH CLARA")
 
