@@ -3,12 +3,10 @@
 \alias{clockstarG}
 \docType{package}
 \title{
-What the package does (short line)
-~~ package title ~~
+clockstarG: Selecting the number of molecular-clocks for genomic data sets
 }
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+clockstarG is an extension of ClockstaR, with capabilities to analyse very large genomic data sets.
 }
 \details{
 \tabular{ll}{
@@ -16,27 +14,15 @@ Package: \tab clockstarG\cr
 Type: \tab Package\cr
 Version: \tab 1.0\cr
 Date: \tab 2014-03-31\cr
-License: \tab What license is it under?\cr
+License: \tab GNU\cr
 }
-~~ An overview of how to use the package, including the most important ~~
-~~ functions ~~
 }
 \author{
-Who wrote it
-
-Maintainer: Who to complain to <yourfault@somewhere.net>
-~~ The author and/or maintainer of the package ~~
+Sebastian Duchene
+Maintainer: Sebastian Duchene <sebastian.duchene@sydney.edu.au>
 }
 \references{
-~~ Literature or other references for background information ~~
+Duchene, S, Molak, M., and Ho, SYW. "ClockstaR: choosing the number of relaxed-clock models in molecular phylogenetic analysis." Bioinformatics (2013): btt665.
 }
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
-~~ the R documentation directory ~~
-\keyword{ package }
-\seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
-}
-\examples{
-~~ simple examples of the most important functions ~~
-}
+\keyword{ molecular-clock }
+

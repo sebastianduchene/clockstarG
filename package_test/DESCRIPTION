@@ -1,9 +1,10 @@
 Package: clockstarG
 Type: Package
-Title: What the package does (short line)
+Title: clockstarG: Selecting the number of molecular-clocks in genomic data sets
 Version: 1.0
 Date: 2014-03-31
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Sebastian Duchene
+Maintainer: Sebastian Duchene <sebastian.duchene@sydney.edu.au>
+Description: clockstarG is an extension of ClockstaR for very large data sets.
+License: GNU
+
