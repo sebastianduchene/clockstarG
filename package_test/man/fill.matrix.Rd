@@ -1,53 +1,41 @@
 \name{fill.matrix}
 \alias{fill.matrix}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Fill the diagonal and upper triangle of the matrix
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Fill the distance pairwise matrix above and bellow diagonals
 }
 \usage{
 fill.matrix(matrix.name, new.matrix.name = NULL)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{matrix.name}{
-%%     ~~Describe \code{matrix.name} here~~
+The name of a matrix with the pairwise distances.
 }
   \item{new.matrix.name}{
-%%     ~~Describe \code{new.matrix.name} here~~
+The name of the output file for the matrix with diagonal and upper diagonal values complete.
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+See examples
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
+No returned value. This function only saves a tab delimited file with the name and path in new.matrix.name
 }
 \author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
+Sebastian Duchene
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+fold.sbsd
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+
+\dontrun{
+fill.matrix(matrix.name = "example_sbsdtest.fold.txt", new.matrix.name = "example_fill_sbsd.txt")
+}
 
 ## The function is currently defined as
 function (matrix.name, new.matrix.name = NULL) 
@@ -67,7 +55,4 @@ function (matrix.name, new.matrix.name = NULL)
         row.names = T, col.names = T)
   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ clockstar }

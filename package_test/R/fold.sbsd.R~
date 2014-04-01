@@ -3,10 +3,10 @@ function(trees.file, comps.file, out.name = "test.fold.txt", method = "lite", co
 
   tree.names <- system(paste("awk '{print $1}' FS='('", trees.file), intern = T)
   if(is.null(comps.range)) comps.range <- 1:length(tree.names)
-  if(1 %in% comps.range){
-       cat(paste(c(tree.names[1], rep(NA, length(tree.names) - 1)), collapse = " "), file = paste0("sbsd", out.name), append = T, sep = "\n" )
-       cat(paste(c(tree.names[1], rep(NA, length(tree.names) - 1)), collapse = " "), file = paste0("s", out.name), append = T, sep = "\n" )
-  }
+
+  cat(paste(c(tree.names[1], rep(NA, length(tree.names) - 1)), collapse = " "), file = paste0("sbsd", out.name), append = T, sep = "\n" )
+  cat(paste(c(tree.names[1], rep(NA, length(tree.names) - 1)), collapse = " "), file = paste0("s", out.name), append = T, sep = "\n" )
+
   if(method == "lite"){
   # Memory lite version
   #####################
