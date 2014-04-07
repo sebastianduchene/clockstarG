@@ -39,7 +39,7 @@ function(data.folder, init.alin = NULL, end.alin = NULL, out.trees = "out.trees"
         model.temp <- model.temp[order(model.temp$BIC), ][1, 1]	
 	print(paste("The model for", alin.names[i], "is", model.temp))
 	cat(paste(alin.names[i], model.temp, collapse = " "), file = "models.test.txt", sep = "\n", append = T)
-	optim.temp <- optim.pml(pml.temp, model = c("GTR", "HKY")[1+as.numeric(grepl("HKY", model.temp))], optInv = grepl("[+]I", model.temp), optGamma = grepl("[+]G", model.temp))
+	optim.temp <- optim.pml(pml.temp, model = c("GTR", "HKY")[1+as.numeric(grepl("HKY", model.temp))], optInv = grepl("[+]I", model.temp), optGamma = grepl("[+]G", model.temp), k = 4)
       }else{
 	optim.temp <- optim.pml(pml.temp)
       }
