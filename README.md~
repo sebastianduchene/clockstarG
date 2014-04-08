@@ -1,27 +1,5 @@
-
 This is the home of ClockstaR+G
 ===============================
-
-Instructions to run:
-
-(1) Create folder with fasta files and the tree
-
-(2) Optimise trees with **optim.trees.g**
-
-(3) Make tree comps file with **make.tree.comps**
-
-(4) Estimate sbsd with **get.sbsd**
-
-(5) Fold matrix with **fold.sbsd**
-
-(6) Fill matrix with **fill.matrix**
-
-(7) Compress dimensions with **run.irlba**
-
-(8) Run Clara on the *u* vectors with **run.clara**
-
-(9) Run bootstrap replicates with **boot.clara**
-
 
 Instructions for dev:
 
