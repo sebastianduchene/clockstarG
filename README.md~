@@ -21,18 +21,27 @@ Instructions for dev:
 
 - ~~(6) Run CLARA for a range of k. (This can be parallelised of different ranges of k)~~
 
-    - ~~(6.1) Note that one can choose run.clara.wk to get the gap statistic, or run.clara.sil to get the silhouettes. With gap it is necessary to run a botstrap to obtain k, with silhouettes one can maximise the silhouette's width. Gap has the advantage that it can assess the fit of k = 1, where as silhouettes cannot be computed for k < 2.~~
 
-    - ~~(6.2) Save k and logW. -> text file with k and the log10W~~
 
-- ~~(7) Run bootstrap for clara, selecting a function from (6.1)~~
+
+
+Pending to include in instructions
+------------------------------------
+
+
+    - (6.1) Note that one can choose run.clara.wk to get the gap statistic, or run.clara.sil to get the silhouettes. With gap it is necessary to run a botstrap to obtain k, with silhouettes one can maximise the silhouette's width. Gap has the advantage that it can assess the fit of k = 1, where as silhouettes cannot be computed for k < 2.
+
+    - (6.2) Save k and logW. -> text file with k and the log10W
+
+- (7) Run bootstrap for clara, selecting a function from (6.1)
     
-    - ~~(7.1) For silhouettes the bootstrap can confirm the fit of k. It should be higher for the real data than for the bootstrap replicates.~~
-    - ~~(7.2) For cluster widths follow (8)~~
+    - (7.1) For silhouettes the bootstrap can confirm the fit of k. It should be higher for the real data than for the bootstrap replicates.
+    - (7.2) For cluster widths follow (8)
 
-- ~~(8) For gap, Load the clustering info (silhouette or cluster width) in R and run get.gap. The output of this function can be run througth maxSE from package cluster to get the optimal k.~~
+- (8) For gap, Load the clustering info (silhouette or cluster width) in R and run get.gap. The output of this function can be run througth maxSE from package cluster to get the optimal k.
 
-Pending
--------
+Pending dev
+-----------
 
-- include parameter to set bootstrap replicates in get.gap 
+
+	- include parameter to set bootstrap replicates in get.gap 
