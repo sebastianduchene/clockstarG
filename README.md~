@@ -32,3 +32,7 @@ Instructions for dev:
 
 - ~~(8) For gap, Load the clustering info (silhouette or cluster width) in R and run get.gap. The output of this function can be run througth maxSE from package cluster to get the optimal k.~~
 
+Pending
+-------
+
+- include parameter to set bootstrap replicates in get.gap 
