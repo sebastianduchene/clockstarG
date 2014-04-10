@@ -1,5 +1,5 @@
-run.clara <-
-function(clus.matrix.name, out.clus.name = "out_clus_test.txt", k.range = NULL, ...){
+run.clara.wk <-
+function(clus.matrix.name, out.clus.name = "out_clus_wk.txt", k.range = NULL, ...){
 
   dat.clus <- as.matrix(read.table(clus.matrix.name, row.names = 1, head = T))
 
@@ -7,8 +7,8 @@ function(clus.matrix.name, out.clus.name = "out_clus_test.txt", k.range = NULL, 
 
   if(is.null(k.range)) k.range <- 1:(nrow(dat.clus) - 1)
 
-  print("I WILL START COMPUTING LOGW WITH CLARA")
-
+  print("I WILL START COMPUTING LOG WITH OF CLUSTERS WITH CLARA")
+  print("NOTE THAT A BOOTSTRAP IS NECESSARY TO COMPUTE THE GAP STATISTIC")
 # The code for this function is taken from cluster
     ii <- 1:nrow(dat.clus)
 #    FUNcluster <- clara
