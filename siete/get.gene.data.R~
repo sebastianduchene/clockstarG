@@ -1,0 +1,33 @@
+library(rentrez)
+gene.names <- read.table("gene.names.csv", sep = ",", head = T, as.is = T)
+
+gene.names[, 2] <- gsub(" ", "", gene.names[, 2])
+
+
+
+# loop can start here
+
+
+print("I am searching for the genes in NCBI")
+gene_1_search <- entrez_search(db = "Gene", term = paste0(gene.names[1, 2], "[Gene]"), usehistory = "y")
+
+cookie <- gene_1_search$WebEnv
+
+qk <- gene_1_search$QueryKey
+
+gene_1_data <- entrez_fetch(db = "Gene", WebEnv = cookie,  query_key = qk, rettype = "xml", ret.max = 1)
+gene_1_data <- strsplit(gene_1_data, "\n")[[1]]
+
+data.tags <- c("geneid", "gene_type", "taxname", "ref_locus", "ref_desc", "chromosome.*HuRef")
+
+gene_1_data_tags <- sapply(data.tags, function(x) grep(x, gene_1_data, value = T)[1])
+
+
+# regexp to remove html tags
+gsub("(<([A-Z]|[a-z]|_|[-])+>)|(</([A-Z]|[a-z]|_|[-])+>)", "", gene_1_data_tags)
+
+
+
+
+
+cat(gene_1_data, file = "gene_1_data.xml", sep = "\n")

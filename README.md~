@@ -28,10 +28,9 @@ Instructions for dev:
 Pending to include in instructions
 ------------------------------------
 
+- (6.1) Note that one can choose run.clara.wk to get the gap statistic, or run.clara.sil to get the silhouettes. With gap it is necessary to run a botstrap to obtain k, with silhouettes one can maximise the silhouette's width. Gap has the advantage that it can assess the fit of k = 1, where as silhouettes cannot be computed for k < 2.
 
-    - (6.1) Note that one can choose run.clara.wk to get the gap statistic, or run.clara.sil to get the silhouettes. With gap it is necessary to run a botstrap to obtain k, with silhouettes one can maximise the silhouette's width. Gap has the advantage that it can assess the fit of k = 1, where as silhouettes cannot be computed for k < 2.
-
-    - (6.2) Save k and logW. -> text file with k and the log10W
+- (6.2) Save k and logW. -> text file with k and the log10W
 
 - (7) Run bootstrap for clara, selecting a function from (6.1)
     

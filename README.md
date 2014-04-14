@@ -21,6 +21,8 @@ Instructions for dev:
 
 - ~~(6) Run CLARA for a range of k. (This can be parallelised of different ranges of k)~~
 
+- (7) Get gene names.
+
 
 
 
@@ -39,8 +41,10 @@ Pending to include in instructions
 
 - (8) For gap, Load the clustering info (silhouette or cluster width) in R and run get.gap. The output of this function can be run througth maxSE from package cluster to get the optimal k.
 
+- (9) run get.gap with the logW values and the bootstrap replicates to get the gap statistic and the bootstrap CI.
+
 Pending dev
 -----------
 
 
-	- include parameter to set bootstrap replicates in get.gap 
+	- get.gene names with rentrez package
