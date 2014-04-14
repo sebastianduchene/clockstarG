@@ -1,33 +1,39 @@
 library(rentrez)
-gene.names <- read.table("gene.names.csv", sep = ",", head = T, as.is = T)
+gene.data <- read.table("gene.names.csv", sep = ",", head = T, as.is = T)
 
-gene.names[, 2] <- gsub(" ", "", gene.names[, 2])
-
-
-
-# loop can start here
-
-
-print("I am searching for the genes in NCBI")
-gene_1_search <- entrez_search(db = "Gene", term = paste0(gene.names[1, 2], "[Gene]"), usehistory = "y")
-
-cookie <- gene_1_search$WebEnv
-
-qk <- gene_1_search$QueryKey
-
-gene_1_data <- entrez_fetch(db = "Gene", WebEnv = cookie,  query_key = qk, rettype = "xml", ret.max = 1)
-gene_1_data <- strsplit(gene_1_data, "\n")[[1]]
-
-data.tags <- c("geneid", "gene_type", "taxname", "ref_locus", "ref_desc", "chromosome.*HuRef")
-
-gene_1_data_tags <- sapply(data.tags, function(x) grep(x, gene_1_data, value = T)[1])
-
-
-# regexp to remove html tags
-gsub("(<([A-Z]|[a-z]|_|[-])+>)|(</([A-Z]|[a-z]|_|[-])+>)", "", gene_1_data_tags)
+gene.data[, 2] <- gsub(" ", "", gene.data[, 2])
 
 
 
 
+cat("name,id,type,taxname,locus,description,location,family", file = "gene_data_test.txt", sep = "\n")
 
-cat(gene_1_data, file = "gene_1_data.xml", sep = "\n")
+data.tags <- c("geneid", "gene_type", "taxname", "ref_locus", "ref_desc", "chromosome.*HuRef", "[Ff]amily")
+
+n.dat.run <- nrow(gene.data)
+
+n.dat.comp <- system("wc -l gene_data_test.txt", intern = T)      
+
+while(n.dat.comp-1 < n.dat.run){
+      
+      print(paste("I am searching for the genes in NCBI for gene", gene.data[n.dat.comp, 1], "with name", gene.data[n.dat.comp, 2]))
+      gene_temp_search <- entrez_search(db = "Gene", term = paste0(gene.data[n.dat.comp, 2], "[Gene]"), usehistory = "y")
+
+      cookie <- gene_temp_search$WebEnv
+      qk <- gene_temp_search$QueryKey
+      gene_temp_data <- entrez_fetch(db = "Gene", WebEnv = cookie,  query_key = qk, rettype = "xml", ret.max = 1)
+      gene_temp_data <- strsplit(gene_temp_data, "\n")[[1]]
+      gene_temp_data_tags <- sapply(data.tags, function(x) grep(x, gene_temp_data, value = T)[1])
+
+      # regexp to remove html tags
+      gene_temp_data_tags <- gsub("(<([A-Z]|[a-z]|_|[-])+>)|(</([A-Z]|[a-z]|_|[-])+>)|^ +", "", gene_temp_data_tags)
+
+      print(paste("The metadata for", gene.data[n.dat.comp, 2]))
+      print(gene_temp_data_tags)
+      cat(paste(c(paste0("gene", gene.data[n.dat.comp, 1]), gene_temp_data_tags), collapse = ","), file = "gene_data_test.txt", sep = "\n", append = T)      
+      rm(list = c("gene_temp_search", "gene_temp_data", "gene_temp_data_tags"))
+      
+      n.dat.comp <- system("wc -l gene_data_test.txt", intern = T)
+      
+
+}
