@@ -6,7 +6,7 @@ gene.data[, 2] <- gsub(" ", "", gene.data[, 2])
 
 
 
-cat("name,id,type,taxname,locus,description,location,family", file = "gene_data_test.txt", sep = "\n")
+#cat("name,id,type,taxname,locus,description,location,family", file = "gene_data_test.txt", sep = "\n")
 
 data.tags <- c("geneid", "gene_type", "taxname", "ref_locus", "ref_desc", "chromosome.*HuRef", "[Ff]amily")
 
@@ -17,7 +17,7 @@ n.dat.comp <- as.numeric(gsub("[A-Z]|[a-z]|[.]|[_]| ", "", system("wc -l gene_da
 
 error.rep <- 0
 
-while((n.dat.comp-1 < n.dat.run) && (time.run < 10)){      
+while((n.dat.comp-1 < n.dat.run)){      
       print(paste("I am searching for the genes in NCBI for gene", gene.data[n.dat.comp, 1], "with name", gene.data[n.dat.comp, 2]))
       gene_temp_search <- try(entrez_search(db = "Gene", term = paste0(gene.data[n.dat.comp, 2], "[Gene]"), usehistory = "y"))
 if(class(gene_temp_search) != "try-error"){
