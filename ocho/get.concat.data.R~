@@ -15,12 +15,7 @@ recur.concat <- function(x, y, ...){
 dat <- read.dna(files.fasta[1], format = "fasta")
 
 for(i in 2:length(files.fasta)){
-      if(is.list(dat)){
-	print(paste("sequence ", files.fasta[i], "was read as a list. File not parsed"))
-	next
-      }else{
-            dat <- recur.concat(dat, read.dna(files.fasta[i], format = "fasta"))
-	    }
+      dat <- recur.concat(dat, read.dna(files.fasta[i], format = "fasta"))
 }
 
 write.dna(dat, file = "all_concat.txt", nbcol = -1, colsep = "")
