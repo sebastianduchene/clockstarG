@@ -23,7 +23,7 @@ Instructions for dev:
 
 - (7) Get gene names.
 
-
+- (8) Simulate data under the UPM. The input is the concatenated tree. Then some random noise is added and alignmnets are simulated. Then the branch lengths are estimated for each alignment, and the analysis is performed.
 
 
 
