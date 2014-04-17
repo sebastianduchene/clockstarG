@@ -1,8 +1,8 @@
 This is the home of ClockstaR+G
 ===============================
 
-Instructions to run:
--------------------
+Instructions to run: (The latest code is in code_1704)
+-----------------------------------------------------
 
 - optimise the branch lengths on a fixed tree topology
 

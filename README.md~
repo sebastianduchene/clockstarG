@@ -1,6 +1,29 @@
 This is the home of ClockstaR+G
 ===============================
 
+Instructions to run:
+-------------------
+
+- optimise the branch lengths on a fixed tree topology
+
+- make tree comps matrix to get the tree comparissons one by one
+
+- get sbsd using the tree names and the tree comparissons
+
+- fold the sbsd data into a matrix
+
+- fill the sbsd data matrix
+
+- run mds to compress the matrix for clustering 
+
+- run.clara to estimate the width of the clusters wk or the silhouette width sil
+
+- bootstrap clara data. With silhouettes it is not possible to test the case of a single cluster
+
+- get gap statistics if clara was run with wk 
+
+- post processing it is possible to get the gene information from genbank, and also the empirical gene lengths and base frequencies
+
 Instructions for dev:
 --------------------
 
