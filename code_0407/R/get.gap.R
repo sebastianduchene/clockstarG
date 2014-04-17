@@ -9,9 +9,10 @@ get.gap <- function(true.data, boot.data){
       boot.temp <- boot.data[boot.data[, 1] == i, 2]
       gap.temp <- boot.temp - true.data[true.data[, 1] == i, 2]
       
-      #gap.se <- c(gap.se, diff(quantile(gap.temp, c(0.05, 0.95))))
+#      gap.se <- c(gap.se, diff(quantile(gap.temp, c(0.05, 0.95))))
 
-      gap.se <- c(gap.se, sqrt((1 - 1/B)*var(gap.temp)))
+#      gap.se <- c(gap.se, sqrt((1 - 1/B)*var(gap.temp)))
+      gap.se <- c(gap.se, diff(quantile(gap.temp, c(0.025, 0.975))))
    }
    gap.se <- gap.se / true.data[, 1]
    res.mat <- cbind(gap.dat, gap.se)

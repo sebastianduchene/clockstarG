@@ -10,7 +10,7 @@ boot.clara <- function(clus.matrix.name, out.boot.name = "out_boot.txt", nboot =
     }
     write.table(dat.boot, paste0(boot.temp.name, k))
     FUNboot(clus.matrix.name = paste0(boot.temp.name, k), out.clus.name = out.boot.name, k.range = k.range)
-    system(paste0("rm ", boot.temp.name, k))  
+#    system(paste0("rm ", boot.temp.name, k))  
   }
 }
 
