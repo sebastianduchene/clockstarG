@@ -2,7 +2,7 @@ run.mds <-
 function(matrix.name, out.mds.name = "test_mds.txt"){
 
   dat.matrix <- as.matrix(read.table(matrix.name, head = T, row.names = 1))
-  dat.matrix <- scale(dat.matrix)
+  #dat.matrix <- scale(dat.matrix)
 
   dat.mds <- cmdscale(dat.matrix, k = 3, eig = T)
 
