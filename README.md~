@@ -1,8 +1,10 @@
+
 This is the home of ClockstaR+G
 ===============================
 
-Instructions to run:
--------------------
+<<<<<<< HEAD
+Instructions to run: (The latest code is in code_1704)
+-----------------------------------------------------
 
 - optimise the branch lengths on a fixed tree topology
 
@@ -23,6 +25,28 @@ Instructions to run:
 - get gap statistics if clara was run with wk 
 
 - post processing it is possible to get the gene information from genbank, and also the empirical gene lengths and base frequencies
+=======
+Instructions to run:
+
+(1) Create folder with fasta files and the tree
+
+(2) Optimise trees with **optim.trees.g**
+
+(3) Make tree comps file with **make.tree.comps**
+
+(4) Estimate sbsd with **get.sbsd**
+
+(5) Fold matrix with **fold.sbsd**
+
+(6) Fill matrix with **fill.matrix**
+
+(7) Compress dimensions with **run.irlba**
+
+(8) Run Clara on the *u* vectors with **run.clara**
+
+(9) Run bootstrap replicates with **boot.clara**
+
+>>>>>>> 92a12ae662d600aefa8bf24ff1619741f02b69d5
 
 Instructions for dev:
 --------------------

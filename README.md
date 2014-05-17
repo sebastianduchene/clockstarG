@@ -1,3 +1,4 @@
+
 This is the home of ClockstaR+G
 ===============================
 
@@ -23,30 +24,26 @@ Instructions to run: (The latest code is in code_1704)
 - get gap statistics if clara was run with wk 
 
 - post processing it is possible to get the gene information from genbank, and also the empirical gene lengths and base frequencies
+=======
+Instructions to run:
 
-Instructions for dev:
---------------------
+(1) Create folder with fasta files and the tree
 
-- ~~(1) Optimise branch lengths for many trees. (This can be parallelised for different sets of trees) -> trees file in NEWICK~~
+(2) Optimise trees with **optim.trees.g**
 
-- ~~(2) Make matrix with comparissons and store tree name comparissons as lines in a text file. -> text files with names of pairs of trees~~
+(3) Make tree comps file with **make.tree.comps**
 
-- ~~(3) Fetch trees estimated in (1) with names from (2) and estimate *sBSDmin* and *s*. Store in lines with the names of each pair of trees (This can be parallelised for different pairs of trees). -> text file with names of trees and *sBSDmin* and *s*.~~
+(4) Estimate sbsd with **get.sbsd**
 
-- ~~(4) Make 2 matrices to store *sBSDmin* and *s*.~~
+(5) Fold matrix with **fold.sbsd**
 
-    - ~~(4.1) Fold *sBSDmin* and *s* from (3) and save in the matrices in (4).-> text file with the matrix with NA for diagonal and above diagonal~~
-    - ~~(4.2)  Complete diagonal and upper diagonal of the matrices. -> text file with the matrix ( it should include colnames (which are thesame as the rownames))~~
+(6) Fill matrix with **fill.matrix**
 
-- ~~(5) Run IRLBA on the matrix from (4.2) with two or three dimensions.~~
+(7) Compress dimensions with **run.irlba**
 
-    - ~~(5.1) Store IRLBA matrix and the *d* values. -> text file with the IRLBA dimesion reduced data, text file with the *d* values, and text file with singlurar vectors.~~
+(8) Run Clara on the *u* vectors with **run.clara**
 
-- ~~(6) Run CLARA for a range of k. (This can be parallelised of different ranges of k)~~
-
-- (7) Get gene names.
-
-- (8) Simulate data under the UPM. The input is the concatenated tree. Then some random noise is added and alignmnets are simulated. Then the branch lengths are estimated for each alignment, and the analysis is performed.
+(9) Run bootstrap replicates with **boot.clara**
 
 
 
