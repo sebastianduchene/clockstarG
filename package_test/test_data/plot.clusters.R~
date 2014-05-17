@@ -1,3 +1,0 @@
-require(rgl)
-
-dat <- read.table("u_example_irlba.txt", row.names = 1, head = T)
