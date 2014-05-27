@@ -50,7 +50,7 @@ plot(sim_points[, 1:2], pch = 20, xlim = c(-0.07, 0.07), ylim = c(-0.07, 0.07), 
 library(ape)
 par(mfrow = c(1, 1))
 mds_matrix <- dist(read.table("empirical_data/points_mds.txt"))
-#sbsd_matrix <- as.dist(read.table("fill_sbsdout.txt", head = T))
+#sbsd_matrix <- read.table("fill_sbsdout.txt", head = T)
 hclu <- as.phylo(hclust(mds_matrix))
 plot(hclu, tip.color = rainbow(9)[cluster_id$clustering], direction = "downwards", cex = 0.4)
 
