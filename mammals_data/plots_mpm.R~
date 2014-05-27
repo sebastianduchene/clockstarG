@@ -1,3 +1,4 @@
+library(cluster)
 
 true_cluster <- read.table("empirical_data/out_clus_sil.txt")
 true_boot <- read.table("empirical_data/out_boot1.txt")
@@ -23,18 +24,21 @@ signiff_clusters <- sapply(1:nrow(true_cluster), function(x) (true_cluster[x, 2]
 cluster_id <- clara(true_points, k = 9)
 
 #########
+pdf("upm_plots.pdf")
 par(mfrow = c(2, 2))
 par(mar = c(4, 4, 2.5, 4))
-plot((true_boot_150[, 1]), true_boot_150[, 2], pch = 20, col = rgb(0, 0, 0.5, 0.1), ylim = c(-0.7, -0.15), xlab = "Number of clusters")
+plot((true_boot_150[, 1]), true_boot_150[, 2], pch = 20, col = rgb(0, 0, 0.5, 0.1), ylim = c(-0.7, -0.15), xlab = "Number of clusters", ylab = "Silhouette width")
+mtext("Mammal genome data set", adj = 0)
 lines(true_cluster_150, lwd = 1.5, col = "red")
 plot(true_points[, 1:2], pch = 20, col = cluster_id$clustering + 1)
 
 
-plot(sim_boot_150[, 1], sim_boot_150[, 2], pch = 20, col = rgb(0, 0, 0.5, 0.1), xlab = "Number of clusters")
+plot(sim_boot_150[, 1], sim_boot_150[, 2], pch = 20, col = rgb(0, 0, 0.5, 0.1), xlab = "Number of clusters", ylab = "Silhouette width")
+mtext("UPM simulation", adj = 0)
 lines(sim_cluster_150, lwd = 1.5, col = "red")
 plot(sim_points[, 1:2], pch = 20, xlim = c(-0.07, 0.07), ylim = c(-0.07, 0.07))
 
-
+dev.off()
 
 
 
