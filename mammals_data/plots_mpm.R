@@ -25,7 +25,7 @@ signiff_clusters <- sapply(1:nrow(true_cluster), function(x) (true_cluster[x, 2]
 
 cluster_id <- clara(true_points, k = 9)
 
-pdf("upm_summary_results.pdf", width = 20)
+pdf("upm_summary_results.pdf", width = 20, height = 13)
 #########
 #pdf("upm_plots.pdf")
 par(mfrow = c(2, 2))
