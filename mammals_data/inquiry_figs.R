@@ -29,8 +29,11 @@ cluster_id <- clara(true_points, k = 9)
 
 #plot3d(true_points, type = 's', size = 0.7, ylab = '', xlab = '', zlab = '', col = rainbow(9)[cluster_id$clustering])
 
+#pdf('Fig2_2d.pdf', useDingbats = F)
+plot(true_points[, 1], true_points[, 2], pch = 20, xlab = 'MDS coordinate 1', ylab = 'MDS coordinate 2', cex = 1.4, ylim = c(-3, 2), xlim = c(-4, 2), col = rainbow(9)[cluster_id$clustering])
+#dev.off()
 
-#plot(true_points[, 1], true_points[, 2], pch = 20, xlab = 'MDS coordinate 1', ylab = 'MDS coordinate 2', cex = 1.4, ylim = c(-3, 2), xlim = c(-4, 2), col = rainbow(9)[cluster_id$clustering])
+stop('only printing up to the mds plot')
 
 # Get silhouette plots
 
