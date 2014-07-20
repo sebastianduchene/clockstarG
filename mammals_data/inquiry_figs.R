@@ -33,18 +33,18 @@ cluster_id <- clara(true_points, k = 9)
 plot(true_points[, 1], true_points[, 2], pch = 20, xlab = 'MDS coordinate 1', ylab = 'MDS coordinate 2', cex = 1.4, ylim = c(-3, 2), xlim = c(-4, 2), col = rainbow(9)[cluster_id$clustering])
 #dev.off()
 
-stop('only printing up to the mds plot')
+#stop('only printing up to the mds plot')
 
 # Get silhouette plots
 
 
-pdf('Fig3.pdf')
+#pdf('Fig3.pdf')
 par(mfrow = c(2, 1))
 par(mar = c(4, 4, 4, 4))
-plot(true_boot_150[, 1], true_boot_150[, 2], pch = 20, col = rgb(0, 0, 1, 0.5), ylab = '', xlab = '', ylim = c(-0.7, -0.1))
+plot(true_boot_150[, 1], true_boot_150[, 2], pch = 20, col = rgb(1, 1, 1, 0.5), ylab = '', xlab = '', ylim = c(-0.7, -0.1))
 lines(true_cluster_150[, 1], true_cluster_150[, 2], col = 'red', lwd = 1.5)
 legend(x = 100, y = -0.18, legend = c(expression(paste(italic(W[k]), " of trees")), expression(paste(italic(W[k])," of bootstrap replicates"))), fill = c('red', rgb(0, 0, 1, 0.5)), cex = 0.7, bty = 'n')
 
 plot(sim_boot_150[, 1], sim_boot_150[, 2], pch = 20, col = rgb(0, 0, 1, 0.5), xlab = 'Number of pacemakers',  ylab = expression(paste('Silhouette width ', italic(W[k]))), ylim = c(-0.7, -0.1))
 lines(sim_cluster_150[, 1], sim_cluster_150[, 2], col = 'red', lwd = 1.5)
-dev.off()
+#dev.off()
