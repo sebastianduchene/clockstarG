@@ -25,9 +25,14 @@ signiff_clusters <- sapply(1:nrow(true_cluster), function(x) (true_cluster[x, 2]
 
 cluster_id <- clara(true_points, k = 9)
 
+
+
+
+
 #Start with mds plot
 
 #plot3d(true_points, type = 's', size = 0.7, ylab = '', xlab = '', zlab = '', col = rainbow(9)[cluster_id$clustering])
+
 
 pdf('Fig2_2d.pdf', useDingbats = F)
 plot(true_points[, 1], true_points[, 2], pch = (0:8)[cluster_id$clustering], xlab = 'MDS coordinate 1', ylab = 'MDS coordinate 2', cex = 1.4, ylim = c(-3, 2), xlim = c(-4, 2), lwd = 2, col = rainbow(9)[cluster_id$clustering])
