@@ -8,6 +8,7 @@ true_cluster <- read.table("empirical_data/out_clus_sil.txt")
 true_boot <- read.table("empirical_data/out_boot1.txt")
 true_points <- read.table("empirical_data/points_mds.txt")
 
+
 true_cluster_150 <- true_cluster[true_cluster[, 1] <= 150, ]
 true_boot_150 <- true_boot[true_boot[, 1] <= 150, ]
 
@@ -23,26 +24,25 @@ for(i in 1:nrow(true_cluster)){
 }
 signiff_clusters <- sapply(1:nrow(true_cluster), function(x) (true_cluster[x, 2] > boot_ranges[x, 3]))
 
-cluster_id <- clara(true_points, k = 9)
-
+cluster_id <- clara(true_points, k = 10)
 
 
 
 
 #Start with mds plot
-
+library(rgl)
 #plot3d(true_points, type = 's', size = 0.7, ylab = '', xlab = '', zlab = '', col = rainbow(9)[cluster_id$clustering])
-
 
 pdf('Fig2_2d.pdf', useDingbats = F)
 plot(true_points[, 1], true_points[, 2], pch = (0:8)[cluster_id$clustering], xlab = 'MDS coordinate 1', ylab = 'MDS coordinate 2', cex = 1.4, ylim = c(-3, 2), xlim = c(-4, 2), lwd = 2, col = rainbow(9)[cluster_id$clustering])
 dev.off()
 
-pdf('Fig2_3d_1.pdf')
-scatterplot3d(true_points[, 1], true_points[, 2], true_points[, 3], pch = 20, lwd =2, grid = T, xlim = c(-4, 4), zlim = c(-4, 2), ylim = c(-2, 2), highlight.3d = F, color= rainbow(9)[cluster_id$clustering], ylab = 'MDS coordinate 2', xlab = 'MDS coordinate 1', zlab = 'MDS coordinate 3', angle = 40)
+pdf('Fig2_3d_1.pdf', useDingbats = F )
+library(scatterplot3d)
+scatterplot3d(true_points[, 1], true_points[, 2], true_points[, 3], pch = 20, lwd =2, grid = T, xlim = c(-4, 4), zlim = c(-4, 2), ylim = c(-2, 2), highlight.3d = F, color= rainbow(9)[cluster_id$clustering], ylab = 'MDS coordinate 2', xlab = 'MDS coordinate 1', zlab = 'MDS coordinate 3', angle = 40, cex.symbols = 1.5)
 dev.off()
 
-#stop('only printing up to the mds plot')
+stop('only printing up to the mds plot')
 
 # Get silhouette plots
 
