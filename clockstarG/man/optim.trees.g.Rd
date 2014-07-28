@@ -1,123 +1,52 @@
 \name{optim.trees.g}
 \alias{optim.trees.g}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+optim.trees.g is can be used to optimise the branch lengths for a tree topology over many alignments. Please see the tutorial for instructions to use.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+This function is practical for large data sets. For data sets with less than 20 genes, it may be sufficient to use the standard version of ClockstaR. Please see the tutorial for instructions on how to use.
 }
 \usage{
 optim.trees.g(data.folder, init.alin = NULL, end.alin = NULL, out.trees = "out.trees", model.test = F, out.models = "out.models.txt")
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data.folder}{
-%%     ~~Describe \code{data.folder} here~~
+This is the folder with the individual alignments in fasta files and a tree topology to optimise the branch lengths.
 }
   \item{init.alin}{
-%%     ~~Describe \code{init.alin} here~~
+The number of the first alignment. This is useful for runing several instances of this function. Please see the tutorial for instructions on how to use.
 }
   \item{end.alin}{
-%%     ~~Describe \code{end.alin} here~~
+The number of the first alignment. This is useful for runing several instances of this function. Please see the tutorial for instructions on how to use.
 }
   \item{out.trees}{
-%%     ~~Describe \code{out.trees} here~~
+A character. The name of the file to write the optimised trees.
 }
   \item{model.test}{
-%%     ~~Describe \code{model.test} here~~
+A logical. Select T for model selection. The default is F. It is recommended to leave the default because it can be very slow to run
 }
   \item{out.models}{
-%%     ~~Describe \code{out.models} here~~
+The name of the file to write the models to.
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+Please see the tutorial for instructions on how to use
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+The function does not return anything to the prompt. It saves the trees with optimised branch lenghts to the file specified.
 }
 \references{
-%% ~put references to the literature/web site here ~
+Duchêne, S, Molak, M., and Ho, SYW. "ClockstaR: choosing the number of relaxed-clock models in molecular phylogenetic analysis." Bioinformatics (2014) 30 (7):1017-1019
 }
 \author{
-%%  ~~who you are~~
+Sebastian Duchene
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+optim.trees.interactive in ClockstaR
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (data.folder, init.alin = NULL, end.alin = NULL, out.trees = "out.trees", 
-    model.test = F, out.models = "out.models.txt") 
-{
-    require(ape)
-    require(phangorn)
-    wd.init <- getwd()
-    setwd(data.folder)
-    alin.names <- grep("fasta", dir(), value = T)
-    tree.name <- grep("[.]tre", dir(), value = T)
-    if (is.null(init.alin) || is.null(end.alin)) {
-        init.alin <- 1
-        end.alin <- length(alin.names)
-    }
-    range.alin <- init.alin:end.alin
-    fix.tree <- read.tree(tree.name)
-    fix.tree <- unroot(fix.tree)
-    if (is.null(fix.tree$edge.length)) {
-        fix.tree$edge.length <- rtree(n = length(fix.tree$tip.label))$edge.length
-    }
-    for (i in range.alin) {
-        print(paste("OPTIMISING FOR", alin.names[i]))
-        dat.temp <- tryCatch(read.phyDat(alin.names[i], format = "fasta"), 
-            error = function(x) "file not read")
-        if (class(dat.temp) == "character") {
-            print(paste("file", alin.names[i], "not read"))
-            cat(alin.names[i], file = "errors.log", sep = "\n", 
-                append = T)
-            next
-        }
-        pml.temp <- pml(tree = fix.tree, data = dat.temp)
-        if (model.test) {
-            print(paste("Tesing models for", alin.names[i]))
-            model.temp <- modelTest(pml.temp, model = c("GTR", 
-                "HKY"))
-            model.temp <- model.temp[order(model.temp$BIC), ][1, 
-                1]
-            print(paste("The model for", alin.names[i], "is", 
-                model.temp))
-            cat(paste(alin.names[i], model.temp, collapse = " "), 
-                file = "models.test.txt", sep = "\n", append = T)
-            optim.temp <- optim.pml(pml.temp, model = c("GTR", 
-                "HKY")[1 + as.numeric(grepl("HKY", model.temp))], 
-                optInv = grepl("[+]I", model.temp), optGamma = grepl("[+]G", 
-                  model.temp), k = 4)
-        }
-        else {
-            optim.temp <- optim.pml(pml.temp)
-        }
-        write.tree(phy = optim.temp$tree, file = out.trees, append = T, 
-            tree.names = alin.names[i])
-        rm(list = c("dat.temp", "pml.temp", "optim.temp"))
-    }
-    setwd(wd.init)
-  }
+\dontrun{
+optim.trees.g('data_folder')
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+}

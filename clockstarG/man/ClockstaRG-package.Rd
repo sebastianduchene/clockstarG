@@ -3,12 +3,10 @@
 \alias{ClockstaRG}
 \docType{package}
 \title{
-What the package does (short line)
-~~ package title ~~
+ClockstaRG: An implementation of ClockstaR for genomic data
 }
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+CLockstaRG is an implementation of ClockstaR for large genomic data sets. Some of the steps in the algorithm, such as optimising the branch lengths of the trees, and estimating the tree distances can be run in parallel. This implementation also includes an fast clustering algorithm, CLARA, for large data sets.
 }
 \details{
 \tabular{ll}{
@@ -16,27 +14,19 @@ Package: \tab ClockstaRG\cr
 Type: \tab Package\cr
 Version: \tab 1.0\cr
 Date: \tab 2014-07-28\cr
-License: \tab What license is it under?\cr
+License: \tab GPL (<= 2)\cr
 }
-~~ An overview of how to use the package, including the most important ~~
-~~ functions ~~
 }
 \author{
-Who wrote it
+Sebastian Duchene
 
-Maintainer: Who to complain to <yourfault@somewhere.net>
-~~ The author and/or maintainer of the package ~~
+Maintainer: Sebastian Duchene <sebastian.duchene@sydney.edu.au>
 }
 \references{
-~~ Literature or other references for background information ~~
+Duchêne, S, Molak, M., and Ho, SYW. "ClockstaR: choosing the number of relaxed-clock models in molecular phylogenetic analysis." Bioinformatics (2014) 30 (7):1017-1019
 }
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
-~~ the R documentation directory ~~
-\keyword{ package }
+\keyword{ molecular-clock }
 \seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
-}
-\examples{
-~~ simple examples of the most important functions ~~
+github.com/sebastianduchene/clockstar
+github.com/sebastianduchene/nelsi
 }

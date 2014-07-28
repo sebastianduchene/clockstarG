@@ -5,10 +5,20 @@ This is the home of ClockstaR+G
 Pending for DEV
 --------------
 
-1. DESCRIPTOIN FILE
+1. ~~DESCRIPTOIN FILE~~
 
 2. MAN FILES
-
+   - ~~ClockstaRG-package.Rd~~
+   - boot.clara
+   - fill.matrix.Rd
+   - fold.sbsd.Rd
+   - get.gap.Rd (update in step1_testing.R
+   - get.sbsd.Rd
+   - make.tree.comps.Rd
+   - ~~optim.trees.g.Rd~~
+   - run.clara.sil.Rd
+   - run.clara.wk.Rd
+   - run.mds.Rd
 
 
 

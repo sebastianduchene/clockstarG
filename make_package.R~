@@ -1,2 +1,0 @@
-setwd("clockstarG/")
-funs <- grep('R$', dir(), value = T)

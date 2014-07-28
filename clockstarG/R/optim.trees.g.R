@@ -7,6 +7,15 @@ function(data.folder, init.alin = NULL, end.alin = NULL, out.trees = "out.trees"
   wd.init <- getwd()
   setwd(data.folder)
 
+
+if(file.exists(out.trees)){
+	continue <- readline(paste(out.trees, 'exists. Type Y to append results to the file. Type N to quit and use a different name for the optimised the trees '))
+	if(!(continue %in% c('Y', 'y'))){
+	  setwd(wd.init)
+	  stop('ClockstaRG quit...')
+	}
+}	
+
   alin.names <- grep("fasta", dir(), value = T)
   tree.name <- grep("[.]tre", dir(), value = T)
 
