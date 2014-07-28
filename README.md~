@@ -28,8 +28,10 @@ Instructions to run:
 
 
 
-Pending to include in instructions
+Pending to include in documentation
 ------------------------------------
+
+- Include a tutorial with the simulated data in ClockstaR2
 
 - (6.1) Note that one can choose run.clara.wk to get the gap statistic, or run.clara.sil to get the silhouettes. With gap it is necessary to run a botstrap to obtain k, with silhouettes one can maximise the silhouette's width. Gap has the advantage that it can assess the fit of k = 1, where as silhouettes cannot be computed for k < 2.
 
@@ -43,3 +45,5 @@ Pending to include in instructions
 - (8) For gap, Load the clustering info (silhouette or cluster width) in R and run get.gap. The output of this function can be run througth maxSE from package cluster to get the optimal k.
 
 - (9) run get.gap with the logW values and the bootstrap replicates to get the gap statistic and the bootstrap CI.
+
+

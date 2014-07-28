@@ -2,6 +2,17 @@
 This is the home of ClockstaR+G
 ===============================
 
+Pending for DEV
+--------------
+
+1- DESCRIPTOIN FILE
+
+2- MAN FILES
+
+
+
+
+
 Instructions to run:
 -----------------------------------------------------
 

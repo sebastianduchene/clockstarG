@@ -4,3 +4,5 @@ for(i in funs) source(i)
 setwd('..')
 
 package.skeleton(name = 'ClockstaRG')
+
+
