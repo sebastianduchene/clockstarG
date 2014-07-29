@@ -13,7 +13,7 @@ Pending for DEV
    - fill.matrix.Rd
    - fold.sbsd.Rd
    - get.gap.Rd (update in step1_testing.R
-   - get.sbsd.Rd
+   - ~~get.sbsd.Rd~~
    - ~~make.tree.comps.Rd~~
    - ~~optim.trees.g.Rd~~
    - run.clara.sil.Rd
