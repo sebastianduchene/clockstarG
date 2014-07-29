@@ -1,126 +1,44 @@
 \name{get.sbsd}
 \alias{get.sbsd}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+get.sbsd calculates the sBSDmin distance for pairs of trees. It is similar to the function bsd.dist in ClockstaR2, but it can handle data sets with many trees.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+get.sbsd calculates the sBSDmin distance for pairs of trees. It is similar to the function bsd.dist in ClockstaR2, but it can handle data sets with many trees.
 }
 \usage{
 get.sbsd(trees.file, comps.file, method = "lite", range.comps = NULL, out.file = "sbsd.txt")
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{trees.file}{
-%%     ~~Describe \code{trees.file} here~~
+The name of the file with the gene trees. This is a newick with a list of the gene trees with branch lengths. The trees can include names. See the tutorial and example files for details.
 }
   \item{comps.file}{
-%%     ~~Describe \code{comps.file} here~~
+The name of the file with the tree comparissons.
 }
   \item{method}{
-%%     ~~Describe \code{method} here~~
+There are two methods available: 'memory' and 'lite'. Use 'memory' to load all the trees in RAM. Use 'lite' to read the trees one at a time, so it can be parallelised over different machines or processors. The method 'memory' is faster, i the analysis is not run in parallel. 
 }
   \item{range.comps}{
-%%     ~~Describe \code{range.comps} here~~
+This is useful for the 'lite' method. In this case it is possible to run several instances of the analysis, each for a range of sBSDmin distances among trees.
 }
   \item{out.file}{
-%%     ~~Describe \code{out.file} here~~
+The name of the file to write the output.
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+Please see the tutorial for instructions.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
+This function does not return a value to the prompt. It saves the output to a text file.
 }
 \author{
-%%  ~~who you are~~
+Sebastian Duchene
 }
 \note{
-%%  ~~further notes~~
+NONE
 }
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+NONE
 }
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (trees.file, comps.file, method = "lite", range.comps = NULL, 
-    out.file = "sbsd.txt") 
-{
-    require(ClockstaR2)
-    n.comps <- as.numeric(strsplit(system(paste("wc -l", comps.file), 
-        intern = T), " ")[[1]])
-    n.comps <- n.comps[!is.na(n.comps)]
-    if (is.null(range.comps)) 
-        range.comps <- 1:n.comps
-    if (method == "lite") {
-        print("Memory lite version")
-        t1 <- proc.time()
-        n <- 0
-        for (i in range.comps) {
-            n <- n + 1
-            trees.comps.temp <- system(paste0("awk 'NR==", i, 
-                "' ", comps.file), intern = T)
-            names.temp <- strsplit(trees.comps.temp, " ")[[1]][1:2]
-            trees.text <- system(paste0("awk '/", names.temp[1], 
-                "/ || /", names.temp[2], "/' ", trees.file), 
-                intern = T)
-            tree1.comp <- read.tree(text = trees.text[1])
-            tree2.comp <- read.tree(text = trees.text[2])
-            dist.temp <- bsd.dist(tree1.comp, tree2.comp)
-            print(paste("COMPLETED sBSDmin", n, "of", length(range.comps)))
-            res.temp <- paste(names.temp[1], names.temp[2], dist.temp[1], 
-                dist.temp[2])
-            print(res.temp)
-            cat(res.temp, file = out.file, append = T, sep = "\n")
-        }
-        t2 <- proc.time()
-        print("ESTIMATING THE bBSDmin TOOK:")
-        print(t2 - t1)
-        print(paste("The results are saved in", out.file))
-    }
-    if (method == "memory") {
-        print("Memory intensive version")
-        print("reading trees and comps file")
-        trees.comp <- read.tree(trees.file)
-        names.comp <- readLines(comps.file)
-        t1 <- proc.time()
-        n <- 0
-        for (i in range.comps) {
-            n <- n + 1
-            names.temp <- strsplit(names.comp[i], " ")[[1]][1:2]
-            tree1.comp <- trees.comp[[names.temp[1]]]
-            tree2.comp <- trees.comp[[names.temp[2]]]
-            dist.temp <- bsd.dist(tree1.comp, tree2.comp)
-            print(paste("COMPLETED sBSDmin", n, "of", length(range.comps)))
-            res.temp <- paste(names.temp[1], names.temp[2], dist.temp[1], 
-                dist.temp[2])
-            print(res.temp)
-            cat(res.temp, file = out.file, append = T, sep = "\n")
-        }
-        t2 <- proc.time()
-        print("ESTIMATING THE sBSDmin TOOK:")
-        print(t2 - t1)
-        print(paste("The results are saved in", out.file))
-    }
-  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

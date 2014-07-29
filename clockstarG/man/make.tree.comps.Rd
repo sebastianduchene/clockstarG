@@ -1,11 +1,10 @@
 \name{make.tree.comps}
 \alias{make.tree.comps}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+This function creates a file with the names of the pairwise comparissons for all trees.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+This function creates a file with the names of the pairwise comparissons for all trees.
 }
 \usage{
 make.tree.comps(trees.file, tree.comps = "treecomps.txt")
