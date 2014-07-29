@@ -10,9 +10,9 @@ Pending for DEV
 2. MAN FILES
    - ~~ClockstaRG-package.Rd~~
    - boot.clara
-   - fill.matrix.Rd
-   - fold.sbsd.Rd
-   - get.gap.Rd (update in step1_testing.R
+   - ~~fill.matrix.Rd~~
+   - ~~fold.sbsd.Rd~~
+   - get.gap.Rd (update in step1_testing.R)
    - ~~get.sbsd.Rd~~
    - ~~make.tree.comps.Rd~~
    - ~~optim.trees.g.Rd~~

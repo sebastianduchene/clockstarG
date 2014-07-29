@@ -1,11 +1,10 @@
 \name{fold.sbsd}
 \alias{fold.sbsd}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+fold.sbsd formats the sBSDmin distances calculated with get.sbsd to be used in clustering algorithms.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+fold.sbsd folds the output of get.sbsd into a pairwise matrix that can be used in clustering algorithms. 
 }
 \usage{
 fold.sbsd(trees.file, comps.file, out.name = "test.fold.txt", method = "lite", comps.range = NULL)
@@ -13,146 +12,30 @@ fold.sbsd(trees.file, comps.file, out.name = "test.fold.txt", method = "lite", c
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{trees.file}{
-%%     ~~Describe \code{trees.file} here~~
+The file with the gene trees, as produced in optim.trees.g
 }
   \item{comps.file}{
-%%     ~~Describe \code{comps.file} here~~
+The file with the sBSDmin distances among pairs of trees.
 }
   \item{out.name}{
-%%     ~~Describe \code{out.name} here~~
+The name of the output file.
 }
   \item{method}{
-%%     ~~Describe \code{method} here~~
+There are two methods available: 'memory' and 'lite'. The 'memory' method loads all the sBSDmin distances into RAM, while the 'lite' method reads one at a time. The 'memory' method is faster, but with 'lite' it is possible to overcome memory limitations from very large files.
 }
   \item{comps.range}{
-%%     ~~Describe \code{comps.range} here~~
+  A sequence of integers. This is the range of sBSDmin distances to read and format into the pairwise matrix. Use this for very large files that are difficult to read into RAM.
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+None. See the tutorial for instructions and deatails on some of the settings.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
+This function does not return a value to the prompt. Instead, it writes a text file with the pairwise distance matrix. Note that it only prints the below diagonal values of the matrix, and the rest is filled with NA. To complete these values in the matrix use fill.matrix. This is a requirement of some clusteing algorithms.
 }
 \author{
-%%  ~~who you are~~
+Sebastian Duchene
 }
 \note{
-%%  ~~further notes~~
+See the tutorial for instructions and deatails on some of the settings.
 }
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (trees.file, comps.file, out.name = "test.fold.txt", 
-    method = "lite", comps.range = NULL) 
-{
-    tree.names <- system(paste("awk '{print $1}' FS='('", trees.file), 
-        intern = T)
-    if (is.null(comps.range)) 
-        comps.range <- 1:length(tree.names)
-    if (1 \%in\% comps.range) {
-        cat(paste(c(tree.names[1], rep(NA, length(tree.names) - 
-            1)), collapse = " "), file = paste0("sbsd", out.name), 
-            append = T, sep = "\n")
-        cat(paste(c(tree.names[1], rep(NA, length(tree.names) - 
-            1)), collapse = " "), file = paste0("s", out.name), 
-            append = T, sep = "\n")
-    }
-    if (method == "lite") {
-        t1 <- proc.time()
-        for (i in comps.range[2:length(comps.range)]) {
-            comps.names <- paste(tree.names[i], tree.names[1:i - 
-                1])
-            print(comps.names)
-            dat.name <- tree.names[i]
-            comps.awk <- system(paste0("awk '", paste0("/", comps.names, 
-                "/", collapse = " || "), "' ", comps.file), intern = T)
-            if (length(comps.awk) == 0) {
-                dat.sbsd <- rep(NA, length(tree.names) - 1)
-                dat.s <- rep(NA, length(tree.names) - 1)
-                print(paste("sBSDmin and s for tree", tree.names[i], 
-                  "not found. Filling with NA"))
-            }
-            else {
-                comps.text <- strsplit(comps.awk, " ")
-                dat.all <- sapply(1:length(comps.text), function(x) return(comps.text[[x]][3:4]), 
-                  USE.NAMES = F)
-                dat.sbsd <- dat.all[1, ]
-                dat.s <- dat.all[2, ]
-            }
-            dat.sbsd <- c(dat.sbsd, rep(NA, length(tree.names) - 
-                i))
-            dat.s <- c(dat.s, rep(NA, length(tree.names) - i))
-            cat(paste(dat.name, paste(dat.sbsd, collapse = " ")), 
-                file = paste0("sbsd", out.name), append = T, 
-                sep = "\n")
-            cat(paste(dat.name, paste(dat.s, collapse = " ")), 
-                file = paste0("s", out.name), append = T, sep = "\n")
-            print(paste("WRITTING DISTANCES FOR TREE", dat.name))
-            print(paste(dat.sbsd, collapse = " "))
-            print(paste(dat.s, collapse = " "))
-        }
-        t2 <- proc.time()
-        print("FOLDING THE DISTANCES FOR WITH LITE MODE TOOK")
-        print(t2 - t1)
-    }
-    if (method == "memory") {
-        t1 <- proc.time()
-        comps.dat.raw <- read.table(comps.file, head = F, as.is = T)
-        comps.dat <- data.frame(V1 = paste(comps.dat.raw[, 1], 
-            comps.dat.raw[, 2]), V2 = comps.dat.raw[, 3], V3 = comps.dat.raw[, 
-            4])
-        rm("comps.dat.raw")
-        for (i in comps.range[2:length(comps.range)]) {
-            comps.names <- paste(tree.names[i], tree.names[1:i - 
-                1])
-            dat.name <- tree.names[i]
-            if (all(comps.names \%in\% comps.dat[, 1])) {
-                dat.all <- sapply(comps.names, function(x) return(comps.dat[comps.dat[, 
-                  1] == x, 2:3]), USE.NAMES = F)
-                dat.sbsd <- c(unlist(dat.all[1, ]), rep(NA, length(tree.names) - 
-                  i))
-                dat.s <- c(unlist(dat.all[2, ]), rep(NA, length(tree.names) - 
-                  i))
-            }
-            else {
-                dat.sbsd <- rep(NA, length(tree.names) - 1)
-                dat.s <- rep(NA, length(tree.names) - 1)
-                print(paste("sBSDmin for tree", tree.names[i], 
-                  "not found. Filling with NA"))
-            }
-            cat(paste(dat.name, paste(dat.sbsd, collapse = " ")), 
-                file = paste0("sbsd", out.name), append = T, 
-                sep = "\n")
-            cat(paste(dat.name, paste(dat.s, collapse = " ")), 
-                file = paste0("s", out.name), append = T, sep = "\n")
-            print(paste("WRITTING DISTANCES FOR TREE", dat.name))
-            print(paste(dat.sbsd, collapse = " "))
-            print(paste(dat.s, collapse = " "))
-        }
-        t2 <- proc.time()
-        print("FOLDING THE DISTANCES FOR WITH MEMORY MODE TOOK")
-        print(t2 - t1)
-    }
-  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
