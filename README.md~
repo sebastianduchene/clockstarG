@@ -9,7 +9,7 @@ Pending for DEV
 
 2. MAN FILES
    - ~~ClockstaRG-package.Rd~~
-   - boot.clara
+   - ~~boot.clara~~
    - ~~fill.matrix.Rd~~
    - ~~fold.sbsd.Rd~~
    - get.gap.Rd (update in step1_testing.R)

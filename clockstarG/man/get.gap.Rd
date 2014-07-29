@@ -1,77 +1,47 @@
 \name{get.gap}
 \alias{get.gap}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Get gap statistic.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+get.gap obtains the gap statistic for a range of Wk and bootstrap replicates.
 }
 \usage{
 get.gap(true.data, boot.data)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{true.data}{
-%%     ~~Describe \code{true.data} here~~
+The data with Wk for a range of k. Note that this is not the file name, but the data loaded as a matrix or data fram in R.
 }
   \item{boot.data}{
-%%     ~~Describe \code{boot.data} here~~
+The data with Wk for bootstrap replicates for a range of k. Note that this is not the file name, but the data loaded as a matrix or data fram in R.
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+Please see the tutorial for instructions. 
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+
+A matrix with the Gap statistic and the standard errors (SE). The first column is the Gap, and the second is the SE.
+
 }
 \references{
-%% ~put references to the literature/web site here ~
+     Tibshirani, R., Walther, G. and Hastie, T. (2001).  Estimating the
+     number of data clusters via the Gap statistic.  _Journal of the
+     Royal Statistical Society B_, *63*, 411-423.
+
+     Tibshirani, R., Walther, G. and Hastie, T. (2000).  Estimating the
+     number of clusters in a dataset via the Gap statistic.  Technical
+     Report. Stanford.
+
+     Per Broberg (2006). SAGx: Statistical Analysis of the GeneChip.  R
+     package version 1.9.7.  <URL:
+     http://home.swipnet.se/pibroberg/expression_hemsida1.html>
 }
 \author{
-%%  ~~who you are~~
+Sebastian Duchene
 }
 \note{
-%%  ~~further notes~~
+Please see the tutorial and the documentation for 'clusGap' function of the 'cluster' package for more details. 
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (true.data, boot.data) 
-{
-    boot.means <- sapply(true.data[, 1], function(x) mean(boot.data[boot.data[, 
-        1] == x, 2]))
-    gap.dat <- boot.means - true.data[, 2]
-    gap.se <- vector()
-    B <- table(boot.data[, 1])[1]
-    for (i in true.data[, 1]) {
-        boot.temp <- boot.data[boot.data[, 1] == i, 2]
-        gap.temp <- boot.temp - true.data[true.data[, 1] == i, 
-            2]
-        gap.se <- c(gap.se, diff(quantile(gap.temp, c(0.025, 
-            0.975))))
-    }
-    gap.se <- gap.se/true.data[, 1]
-    res.mat <- cbind(gap.dat, gap.se)
-    colnames(res.mat) <- c("Gap", "SE")
-    rownames(res.mat) <- true.data[, 1]
-    return(res.mat)
-  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
