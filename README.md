@@ -2,6 +2,15 @@
 This is the home of ClockstaR+G
 ===============================
 
+Welcome to the home of ClockstaR + G. This is an extension of [ClockstaR](github.com/sebastianduchene/clockstar) for large genome data sets. It uses many UNIX commands and splits some of the tasks of the ClockstaR algorithm so that many steps can be run in different cores or machines. For this reason, ClockstaR+G only works in UNIX-like machines. Running the program requires some setting up, so it is not efficient for small data sets. I suggest using the original version of ClockstaR if your data set has 40 partitinos or fewer. Please see the tutorial to get stared. For details on the algorithm, please refer to the references in the [ClockstaR](github.com/sebastianduchene/clockstar) website.
+
+
+
+
+
+
+
+
 Pending for DEV
 --------------
 
