@@ -16,7 +16,7 @@ Pending for DEV
    - ~~get.sbsd.Rd~~
    - ~~make.tree.comps.Rd~~
    - ~~optim.trees.g.Rd~~
-   - run.clara.sil.Rd
+   - ~~run.clara.sil.Rd~~
    - ~~run.clara.wk.Rd~~
    - ~~run.mds.Rd~~
 
