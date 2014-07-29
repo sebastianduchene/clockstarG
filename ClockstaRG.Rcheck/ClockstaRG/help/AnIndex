@@ -1,0 +1,12 @@
+ClockstaRG-package	ClockstaRG-package
+boot.clara	boot.clara
+ClockstaRG	ClockstaRG-package
+fill.matrix	fill.matrix
+fold.sbsd	fold.sbsd
+get.gap	get.gap
+get.sbsd	get.sbsd
+make.tree.comps	make.tree.comps
+optim.trees.g	optim.trees.g
+run.clara.sil	run.clara.sil
+run.clara.wk	run.clara.wk
+run.mds	run.mds

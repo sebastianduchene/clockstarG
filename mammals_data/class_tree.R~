@@ -1,0 +1,23 @@
+library(tree)
+
+data_classify <- read.table('classification_data.csv', sep = ',', head= T, row.names = 1, as.is = T)
+data_classify$chromosome <- as.factor(data_classify$chromosome)
+data_classify <- data_classify[!is.na(data_classify$length), ]
+
+
+tr1 <- tree(cluster ~ cg_content + tree_cv + tree_length, data = data_classify)
+
+#tr1.p <- prune.tree(tr1, method = 'deviance')
+
+library(rpart)
+tr2 <- rpart(cluster ~ cg_content + tree_cv + tree_length, data = data_classify)
+#tr2.p <- prune(tr2, cp = 0.01)
+printcp(tr2.p)
+
+
+library(randomForest)
+
+rf1 <- randomForest(factor(cluster) ~ cg_content + tree_cv + tree_length, data = data_classify, na.action = na.omit, prox = T)
+
+print(rf1)
+importance(rf1)

@@ -1,0 +1,12 @@
+library(phangorn)
+library(ClockstaR2)
+
+all_trees <- read.tree("empirical_data/out1.trees")
+
+# getting the tree stats
+
+res_mat  <- matrix(NA, nrow = length(all_trees), ncol = 2)
+
+for(i in 1:length(all_trees)){
+    res_mat[i, ] <- c(sum(all_trees[[i]]$edge.length), sd(all_trees[[i]]$edge.length) / mean(all_trees[[i]]edge.length))
+}

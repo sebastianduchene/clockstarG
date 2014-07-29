@@ -1,0 +1,12 @@
+Package: ClockstaRG
+Type: Package
+Title: ClockstaRG: An implementation of ClockstaR for genomic data
+Version: 0.1
+Date: 2014-07-28
+Author: Sebastian Duchene
+Maintainer: Sebastian Duchene <sebastian.duchene@sydney.edu.au>
+Description: ClockstaRG is an implementation of ClockstaR for large data sets. Some steps of the analysis can be run in parallel. It also includes a fast clustering algorithm, CLARA.
+Depends: R (>= 2.15.0), ape (>= 3.0-8), cluster (>= 1.14.4), phangorn
+        (>= 1.7-4), ClockstaR2 (>= 2.0)
+License: GPL (>=2)
+Built: R 3.1.0; ; 2014-07-29 05:06:33 UTC; unix
