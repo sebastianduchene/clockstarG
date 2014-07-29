@@ -10,59 +10,28 @@
 \usage{
 make.tree.comps(trees.file, tree.comps = "treecomps.txt")
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{trees.file}{
-%%     ~~Describe \code{trees.file} here~~
+Name of file with the trees
 }
   \item{tree.comps}{
-%%     ~~Describe \code{tree.comps} here~~
+Name of file to write the list of tree comparissons
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+None. See the tutorial for instructions on how to run.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+This function does not return values on the command prompt. It creates a text file with the tree comparissons. See the tutorial for instructions on how to run.
 }
 \references{
-%% ~put references to the literature/web site here ~
+NONE
 }
 \author{
-%%  ~~who you are~~
+Sebastian Duchene
 }
 \note{
-%%  ~~further notes~~
+See the tutorial for instructions on how to run.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (trees.file, tree.comps = "treecomps.txt") 
-{
-    tree.names <- system(paste("awk '{print $1}' FS=\"(\"", trees.file), 
-        intern = T)
-    for (i in 2:length(tree.names)) {
-        print(paste("GETTING NAMES FOR TREE", tree.names[i]))
-        cat(paste(tree.names[i], tree.names[1:i - 1]), file = tree.comps, 
-            append = T, sep = "\n")
-        print(paste("PASTED", i, "NAMES"))
-    }
-  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

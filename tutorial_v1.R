@@ -1,3 +1,9 @@
+# Load all code
+cudir <- getwd() 
+setwd('~/Desktop/clockstarg/clockstarG/ClockstaRG/R/')
+for(i in dir()) source(i)
+setwd(cudir)
+
 
 # Optimise trees: Open two sessions of R. Load clockstarg and in type the following in each session:
 
@@ -44,16 +50,10 @@ boot_wk <- read.table('out_boot_wk.txt', head = F, as.is = T)
 plot(boot_wk[, 1], boot_wk[, 2], pch = 20, ylab = 'Sk', xlab = 'k')
 
 
-
 cluster_wk <- read.table('out_clus_wk.txt', head = F, as.is = T)
 
-gap_stat <- vector()
-gap_names <- vector()
-for(i in unique(cluster_wk[, 1])){
-      gap_stat <- c(gap_stat, mean(boot_wk[boot_wk[, 1] == i, 2]) - cluster_wk[cluster_wk[, 1] == i, 2])
-      gap_names <- c(gap_names, i)
-}
+gap <- get.gap(true.data = cluster_wk, boot.data = boot_wk)
 
-gap_comp <- cbind(gap_names, gap_stat)
-
-plot(gap_comp[, 1], gap_comp[, 2], type = 'l', col = 'red', lwd = 2)
+plot(gap[, 1], type = 'l', col = 'red', lwd = 2)
+lines(gap[, 1] + gap[, 2], col = 'blue', lty = 2)
+lines(gap[, 1] - gap[, 2], col = 'blue', lty = 2)
