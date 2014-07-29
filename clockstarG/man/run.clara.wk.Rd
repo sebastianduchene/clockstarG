@@ -1,91 +1,37 @@
 \name{run.clara.wk}
 \alias{run.clara.wk}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+run.clara is used to run the CLARA algorithm on the MDS of the sBSDmin distances for pairs of trees.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+run.clara is a raper from the CLARA algorithm ,implemented in the package 'cluster. It can be run for a range of values of k.
 }
 \usage{
 run.clara.wk(clus.matrix.name, out.clus.name = "out_clus_wk.txt", k.range = NULL, ...)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{clus.matrix.name}{
-%%     ~~Describe \code{clus.matrix.name} here~~
+This is the filename of the MDS of the sBSDmin distances for pairs of trees.
 }
   \item{out.clus.name}{
-%%     ~~Describe \code{out.clus.name} here~~
+The name of the out put name of the avearage cluster width (Wk) for the values of k in k.range.
 }
   \item{k.range}{
-%%     ~~Describe \code{k.range} here~~
+The range of 'k' values to calculate Wk.
 }
   \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
-}
+Other arguments passed to the 'clara' function from pacakge 'cluster'.
+ }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+Please see the tutorial for instructions.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+This function does not return a value to the prompt. It writes a text file with Wk for values of k. 
 }
 \references{
-%% ~put references to the literature/web site here ~
+Kaufman, L., & Rousseeuw, P. J. (2009). Finding groups in data: an introduction to cluster analysis (Vol. 344). John Wiley & Sons.
 }
 \author{
-%%  ~~who you are~~
+Sebastian Duchene
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (clus.matrix.name, out.clus.name = "out_clus_wk.txt", 
-    k.range = NULL, ...) 
-{
-    dat.clus <- as.matrix(read.table(clus.matrix.name, row.names = 1, 
-        head = T))
-    require(cluster)
-    if (is.null(k.range)) 
-        k.range <- 1:(nrow(dat.clus) - 1)
-    print("I WILL START COMPUTING LOG WITH OF CLUSTERS WITH CLARA")
-    print("NOTE THAT A BOOTSTRAP IS NECESSARY TO COMPUTE THE GAP STATISTIC")
-    ii <- 1:nrow(dat.clus)
-    W.k <- function(X, kk) {
-        clus <- if (kk > 1) 
-            clara(X, kk, ...)$cluster
-        else rep.int(1L, nrow(X))
-        0.5 * sum(vapply(split(ii, clus), function(I) {
-            xs <- X[I, , drop = FALSE]
-            sum(dist(xs)/nrow(xs))
-        }, 0))
-    }
-    for (i in k.range) {
-        w.temp <- log10(W.k(X = dat.clus, kk = i, ...))
-        res.temp <- paste(i, w.temp, collapse = " ")
-        cat(res.temp, file = out.clus.name, sep = "\n", append = T)
-        print(paste("k =", res.temp))
-    }
-    print(paste("CLUSTERING DATA SAVED IN", out.clus.name))
-  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
