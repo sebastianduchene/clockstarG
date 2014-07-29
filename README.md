@@ -18,7 +18,7 @@ Pending for DEV
    - ~~optim.trees.g.Rd~~
    - run.clara.sil.Rd
    - run.clara.wk.Rd
-   - run.mds.Rd
+   - ~~run.mds.Rd~~
 
 
 
