@@ -1,7 +1,7 @@
 \name{run.clara.wk}
 \alias{run.clara.wk}
 \title{
-run.clara is used to run the CLARA algorithm on the MDS of the sBSDmin distances for pairs of trees.
+run.clara is used to run the CLARA algorithm on the MDS of the sBSDmin distances for pairs of trees. For every value of 'k' it estimates the cluster width, 'Wk'.
 }
 \description{
 run.clara is a raper from the CLARA algorithm ,implemented in the package 'cluster. It can be run for a range of values of k.
