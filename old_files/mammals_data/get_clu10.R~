@@ -1,3 +1,0 @@
-clu_10 <- read.table('cluster_10.txt', head = T)
-
-class_dat <- read.table('classification_data.csv', sep = ',', head = T)
