@@ -37,7 +37,7 @@ print(comps.names)
     cat(paste(dat.name, paste(dat.sbsd, collapse = " ")), file = paste0("sbsd", out.name), append = T, sep = "\n")
     cat(paste(dat.name, paste(dat.s, collapse = " ")), file = paste0("s", out.name), append = T, sep = "\n")
 
-    print(paste("WRITTING DISTANCES FOR TREE", dat.name))  
+    print(paste("WRITING DISTANCES FOR TREE", dat.name))  
     print(paste(dat.sbsd, collapse = " "))
     print(paste(dat.s, collapse = " "))
   }
@@ -70,7 +70,7 @@ print(comps.names)
       }
       cat(paste(dat.name, paste(dat.sbsd, collapse = " ")), file = paste0("sbsd", out.name), append = T, sep = "\n")
       cat(paste(dat.name, paste(dat.s, collapse = " ")), file = paste0("s", out.name), append = T, sep = "\n")
-      print(paste("WRITTING DISTANCES FOR TREE", dat.name))
+      print(paste("WRITING DISTANCES FOR TREE", dat.name))
       print(paste(dat.sbsd, collapse = " "))
       print(paste(dat.s, collapse = " "))
     }

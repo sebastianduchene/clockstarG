@@ -8,12 +8,13 @@ Please follow the tutorial below for instructions on how to use:
 The program can be installed directly from github. This requres the devtools package, which can be downlaoded from CRAN.
 
 ```
-install.packages(devtools)
+install.packages('devtools')
 ```
 
-Install ClockstaR-G:
+Load devtools and use the install_github function to install directly from github:
 
 ```
+library(devtools)
 install_github('clockstarg', 'sebastianduchene')
 ```
 
