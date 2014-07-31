@@ -158,21 +158,13 @@ For the silhouette width we select the maximum increase in the statistic between
 
 ```r
 boot_sil <- read.table('out_boot_sil.txt', head = F, as.is = T)
-plot(boot_sil[, 1], boot_sil[, 2], pch = 20, ylab = 'Sk', xlab = 'k', ylab = 'Sk', xlab = 'Number of pacemakers')
-```
+plot(boot_sil[, 1], boot_sil[, 2], pch = 20,  ylab = 'Sk', xlab = 'Number of pacemakers')
 
-```
-## Error: formal argument "xlab" matched by multiple actual arguments
-```
-
-```r
 cluster_sil <- read.table('out_clus_sil.txt', head = F, as.is = T)
 lines(cluster_sil[, 1], cluster_sil[, 2], col = 'red', lwd = 2)
 ```
 
-```
-## Error: plot.new has not been called yet
-```
+![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1.png) 
 
 
 For the cluster width it is necessary to compute the GAP statistic. This can be done with the function *get.gap*. The optimal value is the first maximum. 
