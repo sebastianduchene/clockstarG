@@ -1,4 +1,4 @@
-ClockstaRG
+ClockstaR-G
 ===========
 
 This is the repository for ClockstaRG, an implementation of [ClockstaR](https://github.com/sebastianduchene/clockstar) for large data sets. This program only works in Unix-like machines, and it is more difficult to use than ClockstaR. For data sets with fewer than 20 genes, I suggest using the starndard version of ClockstaR.
