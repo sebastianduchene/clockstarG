@@ -1,79 +1,206 @@
+ClockstaRG
+===========
 
-This is the home of ClockstaR+G
-===============================
+This is the repository for ClockstaRG, an implementation of [ClockstaR](https://github.com/sebastianduchene/clockstar) for large data sets. This program only works in Unix-like machines, and it is more difficult to use than ClockstaR. For data sets with fewer than 20 genes, I suggest using the starndard version of ClockstaR.
 
 Welcome to the home of ClockstaR + G. This is an extension of [ClockstaR](https://github.com/sebastianduchene/ClockstaR) for large genome data sets. It uses many UNIX commands and splits some of the tasks of the ClockstaR algorithm so that many steps can be run in different cores or machines. For this reason, ClockstaR+G only works in UNIX-like machines. Running the program requires some setting up, so it is not efficient for small data sets. I suggest using the original version of ClockstaR if your data set has 40 partitinos or fewer. Please see the tutorial to get stared. For details on the algorithm, please refer to the references in the [ClockstaR](https://github.com/sebastianduchene/ClockstaR) website.
 
+Please follow the tutorial below for instructions on how to use:
 
 
+0. Installation and set up
+---------------------------
+
+The program can be installed directly from github. This requres the devtools package, which can be downlaoded from CRAN.
+
+```coffee
+install.packages(devtools)
+```
+
+Install ClockstaRG:
+
+```coffee
+install_github('clockstarg', 'sebastianduchene')
+```
+
+If all goes well, you should be able to load ClockstaRG
+
+```coffee
+library(ClockstaRG)
+```
+
+ClockstaRG is run through a series of steps. Download this repository as a zip file and unzip it. A folder called *test_files* contains some simulated data for this tutorial. It is a fairly small data set, so it should run very quickly.
+
+1. Optimise branch lengths for the gene trees
+---------------------------------------------
+
+Create a folder and move the *test_files* folder to the new folder.
+ 
+Open two sessions of R and set the working directory to the folder you just created. Load ClockstaRG and in type the following in each session:
+
+```coffee
+optim.trees.g(data.folder = 'test_files', init.alin = 1, end.alin = 10, out.trees = '../out_trees_1.trees', model.test = F)
+```
+
+```coffee
+optim.trees.g(data.folder = 'test_files', init.alin = 11, end.alin = 20, out.trees = '../out_trees_2.trees', model.test = F)
+```
+
+There are 20 genes in the data set. Each session will optimise 10, as specified in the init.alin and end.alin parameters in the optim.trees.g function.
+
+After the sessions finish optimising the branch lengths, two files will appear in the working directory; out_trees_1.trees, and out_trees_2.trees. These files contain the gene trees. Concatenate them through R using a shell command with the function system(). You can also use the shell command directly.
+
+```coffee
+system('cat out_trees_*.trees > out_trees_all.trees')
+```
+
+2. Make tree comparissons files
+-------------------------------
+
+ClockstaRG requires a file with the names of all the trees for which it needs to estimate the *sBSDmin* tree distance ([Duchene et al. 2014](#references)). Make the file with the following command:
+
+```coffee
+make.tree.comps(trees.file = 'out_trees_all.trees', tree.comps = 'tree_comparisons.txt')
+```
+
+This will make a file called *tree_comparissons.txt*. Each line corresponds to the tree names for each *sBSDmin* distance to estimate.
 
 
+3. Estimate *sBSDmin* for a range of trees
+------------------------------------------
 
+The function *get.sbsd* uses the file with the gene trees (*out_trees_all.trees*) and the tree comparissons file (*tree_comparissons.txt*) to estimate the *sBSDmin* for pairs of trees.
 
+Open two R sessions (if you had not done this prevously), and use type the following lines in each session:
 
-Pending for DEV
---------------
+```coffee
+get.sbsd(trees.file = 'out_trees_all.trees', comps.file = 'tree_comparisons.txt', method = 'memory', range.comps = 1:95, out.file = 'sbsd_1.txt')
+```
 
-1. ~~DESCRIPTOIN FILE~~
+```coffee
+get.sbsd(trees.file = 'out_trees_all.trees', comps.file = 'tree_comparisons.txt', method = 'memory', range.comps = 96:190, out.file = 'sbsd_2.txt')
+```
 
-2. MAN FILES
-   - ~~ClockstaRG-package.Rd~~
-   - ~~boot.clara~~
-   - ~~fill.matrix.Rd~~
-   - ~~fold.sbsd.Rd~~
-   - ~~get.gap.Rd (update in step1_testing.R)~~
-   - ~~get.sbsd.Rd~~
-   - ~~make.tree.comps.Rd~~
-   - ~~optim.trees.g.Rd~~
-   - ~~run.clara.sil.Rd~~
-   - ~~run.clara.wk.Rd~~
-   - ~~run.mds.Rd~~
+The numbers in range.comps are the range of distances to estimate. These correspond to the lines in the *tree_comparissons.txt* file.Note that in each session we are running a set of values. Type ?get.sbsd at the prompt for more information on other function arguments. The argument *method* is particularly important. It can be used to read trees one at a time (lite), or to load them in memory (memory). Selecting *memory* is faster, but if there is not enough RAM available for the data set, *lite* is a more efficient option.
 
+In this step we produced two files with the *sBSDmin* distances. These should be combined, with a shell command. Use *system* from R to combine the files:
 
+```coffee
+system('cat sbsd_*.txt > sbsd_all.txt')
+```
 
+4. Fold the *sBSDmin* distances into a pariwise matrix
+------------------------------------------------------
 
-Instructions to run:
+If you open the *sbsd_all.txt* file in a text editor, you will notice that the values are printed line by line. For the subsequent steps it is necessary to format these distances into a pairwise matrix. This can be done using two functions: *fold.sbsd* and *fill.matrix*. 
+*fold.sbsd* folds the scaling factors,*s*, and the *sBSDmin* distances:
+
+```coffee
+fold.sbsd(trees.file = 'out_trees_all.trees', comps.file = 'sbsd_all.txt', out.name = 'folded_sbsd.txt', method = 'lite')
+```
+
+*fold.sbsd* produced two files: *sbsdfolded_sbsd.txt* and *sfolded_sbsd.txt*. These are pairwise matrices, but the above diagonal alements are NA. Some clusering applications require the above diagonal elements as numbers. This can be done with the *fill.matrix* function:
+
+```coffee
+fill.matrix(matrix.name = 'sbsdfolded_sbsd.txt')
+fill.matrix(matrix.name = 'sfolded_sbsd.txt')
+```
+
+This will fill the upper diagonal elements and store them in the same text files.
+
+5. Multi-dimensional scaling (MDS) of the pairwise matrices
 -----------------------------------------------------
 
+ClockstaRG uses CLARA and a paramtric bootstrapping method. In these methods we cannot use the pairwise distances directly, so we use a multi-dimensional scaling (MDS) of the *sBSDmin* distances. This can be done with the *run.mds* function:
 
-Instructions to run:
+```coffee
+run.mds(matrix.name = 'sbsdfolded_sbsd.txt', out.mds.name = 'sbsd_mds.txt')
+```
 
-(1) Create folder with fasta files and the tree
-
-(2) Optimise trees with **optim.trees.g**
-
-(3) Make tree comps file with **make.tree.comps**
-
-(4) Estimate sbsd with **get.sbsd**
-
-(5) Fold matrix with **fold.sbsd**
-
-(6) Fill matrix with **fill.matrix**
-
-(7) Compress dimensions with **run.irlba**
-
-(8) Run Clara on the *u* vectors with **run.clara**
-
-(9) Run bootstrap replicates with **boot.clara**
+The argumensts are the name of the pairwise *sBSDmin* distances and the name of the output file. Note that we use the *sBSDmin* distance, instead of the scaling factors, *s*. The scaling factors are not used for the clusteing algorithm, but they can be used to compare the relative rates among genes.
 
 
+6. Run the clustering algorithm 
+-------------------------------
 
-Pending to include in documentation
-------------------------------------
+The following functions can be used to estimate the average silhouette width and the average cluster width. I find that the silhouette width works better for large data sets, but this warrants further investigation.
 
-- Include a tutorial with the simulated data in ClockstaR2
+For the purpose of this tutorial we can run them both to compare the results:
 
-- (6.1) Note that one can choose run.clara.wk to get the gap statistic, or run.clara.sil to get the silhouettes. With gap it is necessary to run a botstrap to obtain k, with silhouettes one can maximise the silhouette's width. Gap has the advantage that it can assess the fit of k = 1, where as silhouettes cannot be computed for k < 2.
+Type the following lines in each of the R prompts that you opened previously:
 
-- (6.2) Save k and logW. -> text file with k and the log10W
+````coffee
+run.clara.sil(clus.matrix.name = 'points_sbsd_mds.txt', out.clus.name = 'out_clus_sil.txt')
+```
 
-- (7) Run bootstrap for clara, selecting a function from (6.1)
-    
-    - (7.1) For silhouettes the bootstrap can confirm the fit of k. It should be higher for the real data than for the bootstrap replicates.
-    - (7.2) For cluster widths follow (8)
-
-- (8) For gap, Load the clustering info (silhouette or cluster width) in R and run get.gap. The output of this function can be run througth maxSE from package cluster to get the optimal k.
-
-- (9) run get.gap with the logW values and the bootstrap replicates to get the gap statistic and the bootstrap CI.
+```coffee
+run.clara.wk(clus.matrix.name = 'points_sbsd_mds.txt', out.clus.name = 'out_clus_wk.txt')
+````
 
 
+7. Bootstrapping 
+----------------
+
+A parametric bootstrap is necessary to assess statistical support for values of *k*. This can be done with the *boot.clara* function. Because bootstrap replicates are independent, a set of replicates can be run in different machines or instances of R to increase speed.
+
+The function *bot.clara* requires the name of the MDS coordinates (from step 5) the name of the output file, and the clustering function for the bootstrap replicates. Use the help for this function for details on the arguments (?boot.clara). On this case, we will run it for both clustering algorithms, average silhouette width and average cluster width. 
+
+```coffee
+boot.clara(clus.matrix.name = 'points_sbsd_mds.txt', nboot = 100, FUNboot = run.clara.sil, out.boot.name = 'out_boot_sil.txt')
+```
+```coffee
+boot.clara(clus.matrix.name = 'points_sbsd_mds.txt', nboot = 100, FUNboot = run.clara.wk, out.boot.name = 'out_boot_wk.txt')
+```
+
+8. Plotting and viewing the results
+-----------------------------------
+
+There are many ways to plot the results. A simple example is shown below.
+
+The files *out_boot_sil.txt* and *out_boot_wk.txt* contain the bootstrap replicates with the silhouette and cluster width algorithms. The estimates for the real data are in *out_clus_sil.txt* and *out_clus_wk.txt*. The first column is the number of pacemakers (*k*) and the second is the statistic computed (average silhouette width or average cluster width).
+
+For the silhouette width we select the maximum increase in the statistic between sucessive values of *k*. We only consider values higher than all the bootstrap replicates ([Duchene & Ho, Submitted](#references)).
+
+
+```coffee
+boot_sil <- read.table('out_boot_sil.txt', head = F, as.is = T)
+plot(boot_sil[, 1], boot_sil[, 2], pch = 20, ylab = 'Sk', xlab = 'k')
+
+cluster_sil <- read.table('out_clus_sil.txt', head = F, as.is = T)
+lines(cluster_sil[, 1], cluster_sil[, 2], col = 'red', lwd = 2)
+```
+
+![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1.png) 
+
+
+For the cluster width it is necessary to compute the GAP statistic. This can be done with the function *get.gap*, as shown below:
+
+
+```coffee
+boot_wk <- read.table('out_boot_wk.txt', head = F, as.is = T)
+plot(boot_wk[, 1], boot_wk[, 2], pch = 20, ylab = 'Sk', xlab = 'k')
+```
+
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-21.png) 
+
+```coffee
+cluster_wk <- read.table('out_clus_wk.txt', head = F, as.is = T)
+
+gap <- get.gap(true.data = cluster_wk, boot.data = boot_wk)
+
+plot(gap[, 1], type = 'l', col = 'red', lwd = 2)
+lines(gap[, 1] + gap[, 2], col = 'blue', lty = 2)
+lines(gap[, 1] - gap[, 2], col = 'blue', lty = 2)
+```
+
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-22.png) 
+
+
+
+
+References
+----------
+
+Duchene, S., Molak, M., & Ho, S. Y. (2014b). ClockstaR: choosing the number of relaxed-clock models in molecular phylogenetic analysis. *Bioinformatics* 30 (7): 1017-1019.
+
+Duchene, S. & Ho, S. Y. (Submitted)
