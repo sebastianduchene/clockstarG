@@ -7,13 +7,13 @@ Please follow the tutorial below for instructions on how to use:
 
 The program can be installed directly from github. This requres the devtools package, which can be downlaoded from CRAN.
 
-```coffee
+```
 install.packages(devtools)
 ```
 
 Install ClockstaRG:
 
-```coffee
+```
 install_github('clockstarg', 'sebastianduchene')
 ```
 
@@ -100,26 +100,84 @@ fill.matrix(matrix.name = 'sbsdfolded_sbsd.txt')
 fill.matrix(matrix.name = 'sfolded_sbsd.txt')
 ```
 
+This will fill the upper diagonal elements and store them in the same text files.
 
-#run.mds(matrix.name = 'sbsdfolded_sbsd.txt', out.mds.name = 'sbsd_mds.txt')
+5. Multi-dimensional scaling (MDS) of the pairwise matrices
+-----------------------------------------------------
 
-#run.clara.sil(clus.matrix.name = 'points_sbsd_mds.txt', out.clus.name = 'out_clus_sil.txt')
-#boot.clara(clus.matrix.name = 'points_sbsd_mds.txt', nboot = 100, FUNboot = run.clara.sil, out.boot.name = 'out_boot_sil.txt')
+ClockstaRG uses CLARA and a paramtric bootstrapping method. In these methods we cannot use the pairwise distances directly, so we use a multi-dimensional scaling (MDS) of the *sBSDmin* distances. This can be done with the *run.mds* function:
 
-#run.clara.wk(clus.matrix.name = 'points_sbsd_mds.txt', out.clus.name = 'out_clus_wk.txt')
-#boot.clara(clus.matrix.name = 'points_sbsd_mds.txt', nboot = 100, FUNboot = run.clara.wk, out.boot.name = 'out_boot_wk.txt')
+```
+run.mds(matrix.name = 'sbsdfolded_sbsd.txt', out.mds.name = 'sbsd_mds.txt')
+```
+
+The argumensts are the name of the pairwise *sBSDmin* distances and the name of the output file. Note that we use the *sBSDmin* distance, instead of the scaling factors, *s*. The scaling factors are not used for the clusteing algorithm, but they can be used to compare the relative rates among genes.
 
 
+6. Run the clustering algorithm 
+-------------------------------
+
+The following functions can be used to estimate the average silhouette width and the average cluster width. I find that the silhouette width works better for large data sets, but this warrants further investigation.
+
+For the purpose of this tutorial we can run them both to compare the results:
+
+Type the following lines in each of the R prompts that you opened previously:
+
+````
+run.clara.sil(clus.matrix.name = 'points_sbsd_mds.txt', out.clus.name = 'out_clus_sil.txt')
+```
+
+```
+run.clara.wk(clus.matrix.name = 'points_sbsd_mds.txt', out.clus.name = 'out_clus_wk.txt')
+````
+
+
+7. Bootstrapping 
+----------------
+
+A parametric bootstrap is necessary to assess statistical support for values of *k*. This can be done with the *boot.clara* function. Because bootstrap replicates are independent, a set of replicates can be run in different machines or instances of R to increase speed.
+
+The function *bot.clara* requires the name of the MDS coordinates (from step 5) the name of the output file, and the clustering function for the bootstrap replicates. Use the help for this function for details on the arguments (?boot.clara). On this case, we will run it for both clustering algorithms, average silhouette width and average cluster width. 
+
+```
+boot.clara(clus.matrix.name = 'points_sbsd_mds.txt', nboot = 100, FUNboot = run.clara.sil, out.boot.name = 'out_boot_sil.txt')
+```
+```
+boot.clara(clus.matrix.name = 'points_sbsd_mds.txt', nboot = 100, FUNboot = run.clara.wk, out.boot.name = 'out_boot_wk.txt')
+```
+
+8. Plotting and viewing the results
+-----------------------------------
+
+There are many ways to plot the results. A simple example is shown below.
+
+The files *out_boot_sil.txt* and *out_boot_wk.txt* contain the bootstrap replicates with the silhouette and cluster width algorithms. The estimates for the real data are in *out_clus_sil.txt* and *out_clus_wk.txt*. The first column is the number of pacemakers (*k*) and the second is the statistic computed (average silhouette width or average cluster width).
+
+For the silhouette width we select the maximum increase in the statistic between sucessive values of *k*. We only consider values higher than all the bootstrap replicates ([Duchene & Ho, Submitted](#references)).
+
+
+```r
 boot_sil <- read.table('out_boot_sil.txt', head = F, as.is = T)
 plot(boot_sil[, 1], boot_sil[, 2], pch = 20, ylab = 'Sk', xlab = 'k')
 
 cluster_sil <- read.table('out_clus_sil.txt', head = F, as.is = T)
 lines(cluster_sil[, 1], cluster_sil[, 2], col = 'red', lwd = 2)
+```
 
+![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1.png) 
+
+
+For the cluster width it is necessary to compute the GAP statistic. This can be done with the function *get.gap*, as shown below:
+
+
+```r
 boot_wk <- read.table('out_boot_wk.txt', head = F, as.is = T)
 plot(boot_wk[, 1], boot_wk[, 2], pch = 20, ylab = 'Sk', xlab = 'k')
+```
 
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-21.png) 
 
+```r
 cluster_wk <- read.table('out_clus_wk.txt', head = F, as.is = T)
 
 gap <- get.gap(true.data = cluster_wk, boot.data = boot_wk)
@@ -127,6 +185,11 @@ gap <- get.gap(true.data = cluster_wk, boot.data = boot_wk)
 plot(gap[, 1], type = 'l', col = 'red', lwd = 2)
 lines(gap[, 1] + gap[, 2], col = 'blue', lty = 2)
 lines(gap[, 1] - gap[, 2], col = 'blue', lty = 2)
+```
+
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-22.png) 
+
+
 
 
 
@@ -135,3 +198,5 @@ References
 ----------
 
 Duchene, S., Molak, M., & Ho, S. Y. (2014b). ClockstaR: choosing the number of relaxed-clock models in molecular phylogenetic analysis. *Bioinformatics* 30 (7): 1017-1019.
+
+Duchene, S. & Ho, S. Y. (Submitted)
