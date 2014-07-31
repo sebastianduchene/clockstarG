@@ -8,12 +8,13 @@ Please follow the tutorial below for instructions on how to use:
 The program can be installed directly from github. This requres the devtools package, which can be downlaoded from CRAN.
 
 ```
-install.packages(devtools)
+install.packages('devtools')
 ```
 
-Install ClockstaR-G:
+Load devtools and use the install_github function to install directly from github:
 
 ```
+library(devtools)
 install_github('clockstarg', 'sebastianduchene')
 ```
 
@@ -30,7 +31,7 @@ ClockstaR-G is run through a series of steps. Download this repository as a zip 
 
 Create a folder and move the *test_files* folder to the new folder.
  
-Open two sessions of R and set the working directory to the folder you just created. Load ClockstaR-G and in type the following in each session:
+Open two sessions of R. This can be done by opening two terminal windows and typing R. Set the working directory to the folder you just created in both sessions. Load ClockstaR-G and in type the following in each session:
 
 ```
 optim.trees.g(data.folder = 'test_files', init.alin = 1, end.alin = 10, out.trees = '../out_trees_1.trees', model.test = F)
@@ -48,7 +49,7 @@ After the sessions finish optimising the branch lengths, two files will appear i
 system('cat out_trees_*.trees > out_trees_all.trees')
 ```
 
-2. Make tree comparissons files
+2. Make tree comparisons files
 -------------------------------
 
 ClockstaR-G requires a file with the names of all the trees for which it needs to estimate the *sBSDmin* tree distance ([Duchene et al. 2014](#references)). Make the file with the following command:
@@ -57,13 +58,13 @@ ClockstaR-G requires a file with the names of all the trees for which it needs t
 make.tree.comps(trees.file = 'out_trees_all.trees', tree.comps = 'tree_comparisons.txt')
 ```
 
-This will make a file called *tree_comparissons.txt*. Each line corresponds to the tree names for each *sBSDmin* distance to estimate.
+This will make a file called *tree_comparisons.txt*. Each line corresponds to the tree names for each *sBSDmin* distance to estimate.
 
 
 3. Estimate *sBSDmin* for a range of trees
 ------------------------------------------
 
-The function *get.sbsd* uses the file with the gene trees (*out_trees_all.trees*) and the tree comparissons file (*tree_comparissons.txt*) to estimate the *sBSDmin* for pairs of trees.
+The function *get.sbsd* uses the file with the gene trees (*out_trees_all.trees*) and the tree comparisons file (*tree_comparisons.txt*) to estimate the *sBSDmin* for pairs of trees.
 
 Open two R sessions (if you had not done this prevously), and use type the following lines in each session:
 
@@ -75,7 +76,7 @@ get.sbsd(trees.file = 'out_trees_all.trees', comps.file = 'tree_comparisons.txt'
 get.sbsd(trees.file = 'out_trees_all.trees', comps.file = 'tree_comparisons.txt', method = 'memory', range.comps = 96:190, out.file = 'sbsd_2.txt')
 ```
 
-The numbers in range.comps are the range of distances to estimate. These correspond to the lines in the *tree_comparissons.txt* file.Note that in each session we are running a set of values. Type ?get.sbsd at the prompt for more information on other function arguments. The argument *method* is particularly important. It can be used to read trees one at a time (lite), or to load them in memory (memory). Selecting *memory* is faster, but if there is not enough RAM available for the data set, *lite* is a more efficient option.
+The numbers in range.comps are the range of distances to estimate. These correspond to the lines in the *tree_comparisons.txt* file.Note that in each session we are running a set of values. Type ?get.sbsd at the prompt for more information on other function arguments. The argument *method* is particularly important. It can be used to read trees one at a time (lite), or to load them in memory (memory). Selecting *memory* is faster, but if there is not enough RAM available for the data set, *lite* is a more efficient option.
 
 In this step we produced two files with the *sBSDmin* distances. These should be combined, with a shell command. Use *system* from R to combine the files:
 
@@ -175,13 +176,35 @@ boot_wk <- read.table('out_boot_wk.txt', head = F, as.is = T)
 cluster_wk <- read.table('out_clus_wk.txt', head = F, as.is = T)
 
 gap <- get.gap(true.data = cluster_wk, boot.data = boot_wk)
+```
 
+```
+## Error: could not find function "get.gap"
+```
+
+```r
 plot(gap[, 1], type = 'l', col = 'red', lwd = 2, ylab = 'Wk', xlab = 'Number of pacemakers')
+```
+
+```
+## Error: object 'gap' not found
+```
+
+```r
 lines(gap[, 1] + gap[, 2], col = 'blue', lty = 2)
+```
+
+```
+## Error: object 'gap' not found
+```
+
+```r
 lines(gap[, 1] - gap[, 2], col = 'blue', lty = 2)
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
+```
+## Error: object 'gap' not found
+```
 
 Note that with both methods the optimal number of pacemakers is four. 
 
