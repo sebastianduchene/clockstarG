@@ -1,7 +1,7 @@
 ClockstaR-G
 ===========
 
-This is the repository for ClockstaRG, an implementation of [ClockstaR](https://github.com/sebastianduchene/clockstar) for large data sets. This program only works in Unix-like machines, and it is more difficult to use than ClockstaR. For data sets with fewer than 20 genes, I suggest using the starndard version of ClockstaR.
+This is the repository for ClockstaR-G, an implementation of [ClockstaR](https://github.com/sebastianduchene/clockstar) for large data sets. This program only works in Unix-like machines, and it is more difficult to use than ClockstaR. For data sets with fewer than 20 genes, I suggest using the starndard version of ClockstaR.
 
 Please follow the tutorial below for instructions on how to use:
 
@@ -11,26 +11,26 @@ The program can be installed directly from github. This requres the devtools pac
 install.packages(devtools)
 ```
 
-Install ClockstaRG:
+Install ClockstaR-G:
 
 ```
 install_github('clockstarg', 'sebastianduchene')
 ```
 
-If all goes well, you should be able to load ClockstaRG
+If all goes well, you should be able to load ClockstaR-G
 
 ```
 library(ClockstaRG)
 ```
 
-ClockstaRG is run through a series of steps. Download this repository as a zip file and unzip it. A folder called *test_files* contains some simulated data for this tutorial. It is a fairly small data set, so it should run very quickly.
+ClockstaR-G is run through a series of steps. Download this repository as a zip file and unzip it. A folder called *test_files* contains some simulated data for this tutorial. It is a fairly small data set, so it should run very quickly.
 
 1. Optimise branch lengths for the gene trees
 ---------------------------------------------
 
 Create a folder and move the *test_files* folder to the new folder.
  
-Open two sessions of R and set the working directory to the folder you just created. Load ClockstaRG and in type the following in each session:
+Open two sessions of R and set the working directory to the folder you just created. Load ClockstaR-G and in type the following in each session:
 
 ```
 optim.trees.g(data.folder = 'test_files', init.alin = 1, end.alin = 10, out.trees = '../out_trees_1.trees', model.test = F)
@@ -51,7 +51,7 @@ system('cat out_trees_*.trees > out_trees_all.trees')
 2. Make tree comparissons files
 -------------------------------
 
-ClockstaRG requires a file with the names of all the trees for which it needs to estimate the *sBSDmin* tree distance ([Duchene et al. 2014](#references)). Make the file with the following command:
+ClockstaR-G requires a file with the names of all the trees for which it needs to estimate the *sBSDmin* tree distance ([Duchene et al. 2014](#references)). Make the file with the following command:
 
 ```
 make.tree.comps(trees.file = 'out_trees_all.trees', tree.comps = 'tree_comparisons.txt')
@@ -105,7 +105,7 @@ This will fill the upper diagonal elements and store them in the same text files
 5. Multi-dimensional scaling (MDS) of the pairwise matrices
 -----------------------------------------------------
 
-ClockstaRG uses CLARA and a paramtric bootstrapping method. In these methods we cannot use the pairwise distances directly, so we use a multi-dimensional scaling (MDS) of the *sBSDmin* distances. This can be done with the *run.mds* function:
+ClockstaR-G uses CLARA and a paramtric bootstrapping method. In these methods we cannot use the pairwise distances directly, so we use a multi-dimensional scaling (MDS) of the *sBSDmin* distances. This can be done with the *run.mds* function:
 
 ```
 run.mds(matrix.name = 'sbsdfolded_sbsd.txt', out.mds.name = 'sbsd_mds.txt')
