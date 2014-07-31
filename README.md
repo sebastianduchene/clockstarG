@@ -146,7 +146,7 @@ boot.clara(clus.matrix.name = 'points_sbsd_mds.txt', nboot = 100, FUNboot = run.
 boot.clara(clus.matrix.name = 'points_sbsd_mds.txt', nboot = 100, FUNboot = run.clara.wk, out.boot.name = 'out_boot_wk.txt')
 ```
 
-8. Plotting and viewing the results
+8. Plotting the results
 -----------------------------------
 
 There are many ways to plot the results. A simple example is shown below.

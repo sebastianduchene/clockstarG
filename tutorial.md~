@@ -157,7 +157,7 @@ For the silhouette width we select the maximum increase in the statistic between
 
 ```{r}
 boot_sil <- read.table('out_boot_sil.txt', head = F, as.is = T)
-plot(boot_sil[, 1], boot_sil[, 2], pch = 20, ylab = 'Sk', xlab = 'k', ylab = 'Sk', xlab = 'Number of pacemakers')
+plot(boot_sil[, 1], boot_sil[, 2], pch = 20,  ylab = 'Sk', xlab = 'Number of pacemakers')
 
 cluster_sil <- read.table('out_clus_sil.txt', head = F, as.is = T)
 lines(cluster_sil[, 1], cluster_sil[, 2], col = 'red', lwd = 2)
