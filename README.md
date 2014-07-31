@@ -7,13 +7,13 @@ Please follow the tutorial below for instructions on how to use:
 
 The program can be installed directly from github. This requres the devtools package, which can be downlaoded from CRAN.
 
-```
+```coffee
 install.packages(devtools)
 ```
 
 Install ClockstaRG:
 
-```
+```coffee
 install_github('clockstarg', 'sebastianduchene')
 ```
 
@@ -86,20 +86,20 @@ system('cat sbsd_*.txt > sbsd_all.txt')
 4. Fold the *sBSDmin* distances into a pariwise matrix
 ------------------------------------------------------
 
-If you open the *sbsd_all.txt* file in a text editor, you will notice that the values are printed line by line. For the subsequent steps it is necessary to format these distances into a pairwise matrix.
+If you open the *sbsd_all.txt* file in a text editor, you will notice that the values are printed line by line. For the subsequent steps it is necessary to format these distances into a pairwise matrix. This can be done using two functions: *fold.sbsd* and *fill.matrix*. 
+*fold.sbsd* folds the scaling factors,*s*, and the *sBSDmin* distances:
 
+```
+fold.sbsd(trees.file = 'out_trees_all.trees', comps.file = 'sbsd_all.txt', out.name = 'folded_sbsd.txt', method = 'lite')
+```
 
+*fold.sbsd* produced two files: *sbsdfolded_sbsd.txt* and *sfolded_sbsd.txt*. These are pairwise matrices, but the above diagonal alements are NA. Some clusering applications require the above diagonal elements as numbers. This can be done with the *fill.matrix* function:
 
+```
+fill.matrix(matrix.name = 'sbsdfolded_sbsd.txt')
+fill.matrix(matrix.name = 'sfolded_sbsd.txt')
+```
 
-
-
-
-
-
-#fold.sbsd(trees.file = 'out_trees_all.trees', comps.file = 'sbsd_all.txt', out.name = 'folded_sbsd.txt', method = 'lite')
-
-#fill.matrix(matrix.name = 'sbsdfolded_sbsd.txt')
-#fill.matrix(matrix.name = 'sfolded_sbsd.txt')
 
 #run.mds(matrix.name = 'sbsdfolded_sbsd.txt', out.mds.name = 'sbsd_mds.txt')
 

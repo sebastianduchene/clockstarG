@@ -1,30 +1,100 @@
-# Load all code
-cudir <- getwd() 
-setwd('~/Desktop/clockstarg/clockstarG/ClockstaRG/R/')
-for(i in dir()) source(i)
-setwd(cudir)
+ClockstaRG
+===========
+
+This is the repository for ClockstaRG, an implementation of [ClockstaR](https://github.com/sebastianduchene/clockstar) for large data sets. This program only works in Unix-like machines, and it is more difficult to use than ClockstaR. For data sets with fewer than 20 genes, I suggest using the starndard version of ClockstaR.
+
+Please follow the tutorial below for instructions on how to use:
+
+The program can be installed directly from github. This requres the devtools package, which can be downlaoded from CRAN.
+
+```
+install.packages(devtools)
+```
+
+Install ClockstaRG:
+
+```
+install_github('clockstarg', 'sebastianduchene')
+```
+
+If all goes well, you should be able to load ClockstaRG
+
+```
+library(ClockstaRG)
+```
+
+ClockstaRG is run through a series of steps. Download this repository as a zip file and unzip it. A folder called *test_files* contains some simulated data for this tutorial. It is a fairly small data set, so it should run very quickly.
+
+1. Optimise branch lengths for the gene trees
+---------------------------------------------
+
+Create a folder and move the *test_files* folder to the new folder.
+ 
+Open two sessions of R and set the working directory to the folder you just created. Load ClockstaRG and in type the following in each session:
+
+```
+optim.trees.g(data.folder = 'test_files', init.alin = 1, end.alin = 10, out.trees = '../out_trees_1.trees', model.test = F)
+```
+
+```
+optim.trees.g(data.folder = 'test_files', init.alin = 11, end.alin = 20, out.trees = '../out_trees_2.trees', model.test = F)
+```
+
+There are 20 genes in the data set. Each session will optimise 10, as specified in the init.alin and end.alin parameters in the optim.trees.g function.
+
+After the sessions finish optimising the branch lengths, two files will appear in the working directory; out_trees_1.trees, and out_trees_2.trees. These files contain the gene trees. Concatenate them through R using a shell command with the function system(). You can also use the shell command directly.
+
+```
+system('cat out_trees_*.trees > out_trees_all.trees')
+```
+
+2. Make tree comparissons files
+-------------------------------
+
+ClockstaRG requires a file with the names of all the trees for which it needs to estimate the *sBSDmin* tree distance ([Duchene et al. 2014](#references)). Make the file with the following command:
+
+```
+make.tree.comps(trees.file = 'out_trees_all.trees', tree.comps = 'tree_comparisons.txt')
+```
+
+This will make a file called *tree_comparissons.txt*. Each line corresponds to the tree names for each *sBSDmin* distance to estimate.
 
 
-# Optimise trees: Open two sessions of R. Load clockstarg and in type the following in each session:
+3. Estimate *sBSDmin* for a range of trees
+------------------------------------------
 
-#optim.trees.g(data.folder = 'test_files', init.alin = 1, end.alin = 10, out.trees = '../out_trees_1.trees', model.test = F)
+The function *get.sbsd* uses the file with the gene trees (*out_trees_all.trees*) and the tree comparissons file (*tree_comparissons.txt*) to estimate the *sBSDmin* for pairs of trees.
 
-#optim.trees.g(data.folder = 'test_files', init.alin = 11, end.alin = 20, out.trees = '../out_trees_2.trees', model.test = F)
+Open two R sessions (if you had not done this prevously), and use type the following lines in each session:
 
-# concatenate tree files
-#system('cat out_trees_*.trees > out_trees_all.trees')
+```
+get.sbsd(trees.file = 'out_trees_all.trees', comps.file = 'tree_comparisons.txt', method = 'memory', range.comps = 1:95, out.file = 'sbsd_1.txt')
+```
 
-# Make file with tree comparissons:
+```
+get.sbsd(trees.file = 'out_trees_all.trees', comps.file = 'tree_comparisons.txt', method = 'memory', range.comps = 96:190, out.file = 'sbsd_2.txt')
+```
 
-#make.tree.comps(trees.file = 'out_trees_all.trees', tree.comps = 'tree_comparisons.txt')
+The numbers in range.comps are the range of distances to estimate. These correspond to the lines in the *tree_comparissons.txt* file.Note that in each session we are running a set of values. Type ?get.sbsd at the prompt for more information on other function arguments. The argument *method* is particularly important. It can be used to read trees one at a time (lite), or to load them in memory (memory). Selecting *memory* is faster, but if there is not enough RAM available for the data set, *lite* is a more efficient option.
 
-#get.sbsd(trees.file = 'out_trees_all.trees', comps.file = 'tree_comparisons.txt', method = 'memory', range.comps = 1:95, out.file = 'sbsd_1.txt')
+In this step we produced two files with the *sBSDmin* distances. These should be combined, with a shell command. Use *system* from R to combine the files:
 
-#get.sbsd(trees.file = 'out_trees_all.trees', comps.file = 'tree_comparisons.txt', method = 'memory', range.comps = 96:190, out.file = 'sbsd_2.txt')
+```
+system('cat sbsd_*.txt > sbsd_all.txt')
+```
 
-# combine sbsd files:
+4. Fold the *sBSDmin* distances into a pariwise matrix
+------------------------------------------------------
 
-#system('cat sbsd_*.txt > sbsd_all.txt')
+If you open the *sbsd_all.txt* file in a text editor, you will notice that the values are printed line by line. For the subsequent steps it is necessary to format these distances into a pairwise matrix.
+
+
+
+
+
+
+
+
 
 #fold.sbsd(trees.file = 'out_trees_all.trees', comps.file = 'sbsd_all.txt', out.name = 'folded_sbsd.txt', method = 'lite')
 
@@ -57,3 +127,11 @@ gap <- get.gap(true.data = cluster_wk, boot.data = boot_wk)
 plot(gap[, 1], type = 'l', col = 'red', lwd = 2)
 lines(gap[, 1] + gap[, 2], col = 'blue', lty = 2)
 lines(gap[, 1] - gap[, 2], col = 'blue', lty = 2)
+
+
+
+
+References
+----------
+
+Duchene, S., Molak, M., & Ho, S. Y. (2014b). ClockstaR: choosing the number of relaxed-clock models in molecular phylogenetic analysis. *Bioinformatics* 30 (7): 1017-1019.
