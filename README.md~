@@ -3,11 +3,13 @@ ClockstaRG
 
 This is the repository for ClockstaRG, an implementation of [ClockstaR](https://github.com/sebastianduchene/clockstar) for large data sets. This program only works in Unix-like machines, and it is more difficult to use than ClockstaR. For data sets with fewer than 20 genes, I suggest using the starndard version of ClockstaR.
 
-<<<<<<< HEAD
 Welcome to the home of ClockstaR + G. This is an extension of [ClockstaR](https://github.com/sebastianduchene/ClockstaR) for large genome data sets. It uses many UNIX commands and splits some of the tasks of the ClockstaR algorithm so that many steps can be run in different cores or machines. For this reason, ClockstaR+G only works in UNIX-like machines. Running the program requires some setting up, so it is not efficient for small data sets. I suggest using the original version of ClockstaR if your data set has 40 partitinos or fewer. Please see the tutorial to get stared. For details on the algorithm, please refer to the references in the [ClockstaR](https://github.com/sebastianduchene/ClockstaR) website.
-=======
+
 Please follow the tutorial below for instructions on how to use:
->>>>>>> test_code
+
+
+0. Installation and set up
+---------------------------
 
 The program can be installed directly from github. This requres the devtools package, which can be downlaoded from CRAN.
 
@@ -192,8 +194,6 @@ lines(gap[, 1] - gap[, 2], col = 'blue', lty = 2)
 ```
 
 ![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-22.png) 
-
-
 
 
 

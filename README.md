@@ -176,12 +176,6 @@ lines(cluster_sil[, 1], cluster_sil[, 2], col = 'red', lwd = 2)
 For the cluster width it is necessary to compute the GAP statistic. This can be done with the function *get.gap*, as shown below:
 
 
-```coffee
-boot_wk <- read.table('out_boot_wk.txt', head = F, as.is = T)
-plot(boot_wk[, 1], boot_wk[, 2], pch = 20, ylab = 'Sk', xlab = 'k')
-```
-
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-21.png) 
 
 ```coffee
 cluster_wk <- read.table('out_clus_wk.txt', head = F, as.is = T)
