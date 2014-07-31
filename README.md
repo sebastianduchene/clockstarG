@@ -153,7 +153,7 @@ There are many ways to plot the results. A simple example is shown below.
 
 The files *out_boot_sil.txt* and *out_boot_wk.txt* contain the bootstrap replicates with the silhouette and cluster width algorithms. The estimates for the real data are in *out_clus_sil.txt* and *out_clus_wk.txt*. The first column is the number of pacemakers (*k*) and the second is the statistic computed (average silhouette width or average cluster width).
 
-For the silhouette width we select the maximum increase in the statistic between sucessive values of *k*. We only consider values higher than all the bootstrap replicates ([Duchene & Ho, Submitted](#references)).
+For the silhouette width we select the maximum increase in the statistic between sucessive values of *k*. We only consider values higher than all the bootstrap replicates ([Duchene & Ho, Submitted](#references)). This method can only test values of *k* > 2.
 
 
 ```r
@@ -165,7 +165,6 @@ lines(cluster_sil[, 1], cluster_sil[, 2], col = 'red', lwd = 2)
 ```
 
 ![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1.png) 
-
 
 For the cluster width it is necessary to compute the GAP statistic. This can be done with the function *get.gap*. The optimal value is the first maximum. 
 
@@ -184,7 +183,7 @@ lines(gap[, 1] - gap[, 2], col = 'blue', lty = 2)
 
 ![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
 
-Note that with both methods the optimal number of pacemakers is four.
+Note that with both methods the optimal number of pacemakers is four. 
 
 
 
