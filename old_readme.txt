@@ -176,13 +176,35 @@ boot_wk <- read.table('out_boot_wk.txt', head = F, as.is = T)
 cluster_wk <- read.table('out_clus_wk.txt', head = F, as.is = T)
 
 gap <- get.gap(true.data = cluster_wk, boot.data = boot_wk)
+```
 
+```
+## Error: could not find function "get.gap"
+```
+
+```r
 plot(gap[, 1], type = 'l', col = 'red', lwd = 2, ylab = 'Wk', xlab = 'Number of pacemakers')
+```
+
+```
+## Error: object 'gap' not found
+```
+
+```r
 lines(gap[, 1] + gap[, 2], col = 'blue', lty = 2)
+```
+
+```
+## Error: object 'gap' not found
+```
+
+```r
 lines(gap[, 1] - gap[, 2], col = 'blue', lty = 2)
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
+```
+## Error: object 'gap' not found
+```
 
 Note that with both methods the optimal number of pacemakers is four. 
 
