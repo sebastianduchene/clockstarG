@@ -1,0 +1,4 @@
+
+
+
+mds_data <- read.table('points_mds.txt', head = T)

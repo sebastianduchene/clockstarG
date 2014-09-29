@@ -36,10 +36,12 @@ pdf('Fig2_2d.pdf', useDingbats = F)
 plot(true_points[, 1], true_points[, 2], pch = (0:8)[cluster_id$clustering], xlab = 'MDS coordinate 1', ylab = 'MDS coordinate 2', cex = 1.4, ylim = c(-3, 2), xlim = c(-4, 2), lwd = 2, col = rainbow(9)[cluster_id$clustering])
 dev.off()
 
+
 pdf('Fig2_3d_1.pdf', useDingbats = F )
 library(scatterplot3d)
 scatterplot3d(true_points[, 1], true_points[, 2], true_points[, 3], pch = 20, lwd =2, grid = T, xlim = c(-4, 4), zlim = c(-4, 2), ylim = c(-2, 2), highlight.3d = F, color= rainbow(9)[cluster_id$clustering], ylab = 'MDS coordinate 2', xlab = 'MDS coordinate 1', zlab = 'MDS coordinate 3', angle = 40, cex.symbols = 1.5)
 dev.off()
+
 
 #stop('only printing up to the mds plot')
 
