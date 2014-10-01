@@ -37,7 +37,7 @@ plot(true_points[, 1], true_points[, 2], pch = (0:8)[cluster_id$clustering], xla
 dev.off()
 
 
-pdf('Fig2_3d_1.pdf', useDingbats = F )
+pdf('Fig2_3d_1.pdf', useDingbats = F, width = 7, height = 9 )
 library(scatterplot3d)
 scatterplot3d(true_points[, 1], true_points[, 2], true_points[, 3], pch = 20, lwd =2, grid = T, xlim = c(-4, 4), zlim = c(-4, 2), ylim = c(-2, 2), highlight.3d = F, color= rainbow(9)[cluster_id$clustering], ylab = 'MDS coordinate 2', xlab = 'MDS coordinate 1', zlab = 'MDS coordinate 3', angle = 40, cex.symbols = 1.5)
 dev.off()
@@ -48,14 +48,14 @@ dev.off()
 # Get silhouette plots
 
 
-pdf('Fig3.pdf')
+pdf('Fig3.pdf', width = 7, height = 9)
 par(mfrow = c(2, 1))
 par(mar = c(4, 4, 4, 4))
 plot(true_boot_150[, 1], true_boot_150[, 2], pch = 20, col = rgb(0, 0, 0, 0.02), ylab = '', xlab = '', ylim = c(-0.7, -0.1))
 lines(true_cluster_150[, 1], true_cluster_150[, 2], col = 'black', lwd = 1.5)
-legend(x = 100, y = -0.18, legend = c(expression(paste(italic(W[k]), " of trees")), expression(paste(italic(W[k])," of bootstrap replicates"))), fill = c('black', rgb(0, 0, 0, 0.2)), cex = 0.7, bty = 'n')
+legend(x = 100, y = -0.18, legend = c(expression(paste(italic(S[k]), " of trees")), expression(paste(italic(S[k])," of bootstrap replicates"))), fill = c('black', rgb(0, 0, 0, 0.2)), cex = 0.7, bty = 'n')
 
-plot(sim_boot_150[, 1], sim_boot_150[, 2], pch = 20, col = rgb(0, 0, 0, 0.02), xlab = 'Number of pacemakers',  ylab = expression(paste('Silhouette width ', italic(W[k]))), ylim = c(-0.7, -0.1))
+plot(sim_boot_150[, 1], sim_boot_150[, 2], pch = 20, col = rgb(0, 0, 0, 0.02), xlab = expression(paste('Number of pacemakers (', italic(k), ')')),  ylab = expression(paste('Average silhouette width ', italic(S[k]))), ylim = c(-0.7, -0.1))
 lines(sim_cluster_150[, 1], sim_cluster_150[, 2], col = 'black', lwd = 1.5)
 
 dev.off()
@@ -65,9 +65,9 @@ par(mfrow = c(2, 1))
 par(mar = c(4, 4, 4, 4))
 plot(true_boot[, 1], true_boot[, 2], pch = 20, col = rgb(0, 0, 0, 0.02), ylab = '', xlab = '', ylim = c(-1.3, -0.1))
 lines(true_cluster[, 1], true_cluster[, 2], col = 'black', lwd = 1.5)
-legend(x = 100, y = -0.18, legend = c(expression(paste(italic(W[k]), " of trees")), expression(paste(italic(W[k])," of bootstrap replicates"))), fill = c('black', rgb(0, 0, 0, 0.2)), cex = 0.7, bty = 'n')
+legend(x = 100, y = -0.18, legend = c(expression(paste(italic(S[k]), " of trees")), expression(paste(italic(S[k])," of bootstrap replicates"))), fill = c('black', rgb(0, 0, 0, 0.2)), cex = 0.7, bty = 'n')
 
-plot(sim_boot[, 1], sim_boot[, 2], pch = 20, col = rgb(0, 0, 0, 0.02), xlab = 'Number of pacemakers',  ylab = expression(paste('Silhouette width ', italic(W[k]))), ylim = c(-1.3, -0.1))
+plot(sim_boot[, 1], sim_boot[, 2], pch = 20, col = rgb(0, 0, 0, 0.02), xlab = expression(paste('Number of pacemakers (', italic(k), ')')),  ylab = expression(paste('Average silhouette width ', italic(S[k]))), ylim = c(-1.3, -0.1))
 lines(sim_cluster[, 1], sim_cluster[, 2], col = 'black', lwd = 1.5)
 
 dev.off()
