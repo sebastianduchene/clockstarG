@@ -7,12 +7,12 @@ mds_clara <- clara(mds_data, k = 10)
 
 clus_data <- summary(mds_clara)
 
-table_1 <- matrix(NA, 10, 4, dimnames = list(c(1:10), c('clus_id', 'mean_tl', 'size', 'mean_diss')))
+table_1 <- matrix(NA, 10, 5, dimnames = list(c(1:10), c('clus_id', 'mean_tl', 'size', 'mean_diss', 'mean_isolation')))
 
 table_1[, 1] <- 1:10
-table_1[, 3] <- sil_data$clusinfo[, 1]
-table_1[, 4] <- sil_data$clusinfo[, 3]
-
+table_1[, 3] <- clus_data$clusinfo[, 1]
+table_1[, 4] <- clus_data$clusinfo[, 3]
+table_1[, 5] <- clus_data$clusinfo[, 4]
 
 # Get tree info
 
