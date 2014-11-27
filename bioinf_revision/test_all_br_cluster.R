@@ -10,10 +10,10 @@ pms <- rep(pms, 10)
 tree_topo <- unroot(rtree(30))
 trees_sim <- list()
 
-#Generate 100 trees with the 10 pms
+#Generate 100 trees with the 10 pms but different absolute rates
 for(i in 1:100){
       tr_temp <- tree_topo
-      tr_temp$edge.length <- abs(pms[[i]] + rnorm(57, 0.001, 0.001))
+      tr_temp$edge.length <- abs(pms[[i]] + rnorm(57, 0.001, 0.001)) * runif(1, 0.5, 10)
       trees_sim[[i]] <- tr_temp
 }
 names(trees_sim) <- paste0(paste0('pm_', 1:10, '_'), 1:100)
