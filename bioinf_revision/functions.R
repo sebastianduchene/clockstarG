@@ -74,27 +74,35 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
   gap_stats <- rec_rbind(gap_stats)
   mean_gaps <- sapply(1:ncol(gap_stats), function(x) mean(gap_stats[, x]))
   ci_gaps <- sapply(1:ncol(gap_stats), function(x) sd(gap_stats[, x]) / sqrt(nrow(gap_stats)))
-  high_gaps <- sapply(1:ncol(gap_stats), function(x) quantile(gap_stats[, x], c(0.975)))
+  high_gaps <- sapply(1:ncol(gap_stats), function(x) quantile(gap_stats[, x], 0.6))#  c(0.975)))
   max_gap <- which.max(mean_gaps)
 
   if(max_gap > 1){
-#    if(mean_gaps[max_gap] > high_gaps[max_gap - 1] & mean_gaps[max_gap] > high_gaps[max_gap + 1]){
+    if(mean_gaps[max_gap] > high_gaps[max_gap - 1] & mean_gaps[max_gap] > high_gaps[max_gap + 1]){
       opt_k <- max_gap + 1
       cluster_pam <- pam(coord_mat, k = opt_k)
       clus_info  <- cluster_pam$clusinfo
       clus_id <- cluster_pam$clustering
-#    }else{
-#      opt_k <- 1
-#      clus_info <- rep(NA, 5)
-#      clus_id <- rep(1, nrow(coord_mat))
-#      names(clus_id) <- rownames(coord_mat)
-#     }
-  }else{
-    opt_k <- 1
-    clus_info <- rep(NA, 5)
-    clus_id <- rep(1, nrow(coord_mat))
-    names(clus_id) <- rownames(coord_mat)
-  }
+    }else{
+      opt_k <- 1
+      clus_info <- rep(NA, 5)
+      clus_id <- rep(1, nrow(coord_mat))
+      names(clus_id) <- rownames(coord_mat)
+     }
+  }else if(max_gap == 1){
+  	  if(mean_gaps[max_gap] > high_gaps[max_gap + 1]){
+	    opt_k <- 2
+	    cluster_pam <- pam(coord_mat, k = opt_k)
+	    clus_info <- cluster_pam$clusinfo
+	    clus_id <- cluster_pam$clustering
+	    names(clus_id) <- rownames(coord_mat)
+	  }else{
+	    opt_k <- 1
+    	    clus_info <- rep(NA, 5)
+    	    clus_id <- rep(1, nrow(coord_mat))
+    	    names(clus_id) <- rownames(coord_mat)
+  	    }
+	 }
 
   if(plot_clustering){
     plot(2:(ncol(gap_stats) + 1), gap_stats[1, ], pch = 20, ylim = c(min(gap_stats), max(gap_stats)), ylab = 'Gap', xlab = 'k', col = 'blue') #col = rgb(0, 0, 1, 0.3))

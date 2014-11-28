@@ -15,4 +15,4 @@ write.table(br_matrix, file = 'mammal_br_matrix.txt')
 #opt_clusters <- optim_clusters_coord(coord_mat = br_matrix, n_clusters = 10, b_reps = 20, kmax = 100, plot_clustering = T)
 
 #classic_gap <- cl_clusGap(x = br_matrix, K.max = 100, B = 10, n_clusters = 5)
-reg_gap <- optim_clusters_coord(br_matrix, kmax = 150, b_reps = 20, n_clusters = 10, plot_clustering = T)
+reg_gap <- optim_clusters_coord(br_matrix, kmax = 60, b_reps = 20, n_clusters = 4, plot_clustering = T)

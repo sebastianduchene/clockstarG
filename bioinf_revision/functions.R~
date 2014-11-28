@@ -78,23 +78,31 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
   max_gap <- which.max(mean_gaps)
 
   if(max_gap > 1){
-#    if(mean_gaps[max_gap] > high_gaps[max_gap - 1] & mean_gaps[max_gap] > high_gaps[max_gap + 1]){
+    if(mean_gaps[max_gap] > high_gaps[max_gap - 1] & mean_gaps[max_gap] > high_gaps[max_gap + 1]){
       opt_k <- max_gap + 1
       cluster_pam <- pam(coord_mat, k = opt_k)
       clus_info  <- cluster_pam$clusinfo
       clus_id <- cluster_pam$clustering
-#    }else{
-#      opt_k <- 1
-#      clus_info <- rep(NA, 5)
-#      clus_id <- rep(1, nrow(coord_mat))
-#      names(clus_id) <- rownames(coord_mat)
-#     }
-  }else{
-    opt_k <- 1
-    clus_info <- rep(NA, 5)
-    clus_id <- rep(1, nrow(coord_mat))
-    names(clus_id) <- rownames(coord_mat)
-  }
+    }else{
+      opt_k <- 1
+      clus_info <- rep(NA, 5)
+      clus_id <- rep(1, nrow(coord_mat))
+      names(clus_id) <- rownames(coord_mat)
+     }
+  }else if(max_gap == 1){
+  	  if(mean_gaps[max_gap] > high_gaps[max_gap + 1]){
+	    opt_k <- 2
+	    cluster_pam <- pam(coord_mat, k = opt_k)
+	    clus_info <- cluster_pam$clusinfo
+	    clus_id <- cluster_pam$clustering
+	    names(clus_id) <- rownames(coord_mat)
+	  }else{
+	    opt_k <- 1
+    	    clus_info <- rep(NA, 5)
+    	    clus_id <- rep(1, nrow(coord_mat))
+    	    names(clus_id) <- rownames(coord_mat)
+  	    }
+	 }
 
   if(plot_clustering){
     plot(2:(ncol(gap_stats) + 1), gap_stats[1, ], pch = 20, ylim = c(min(gap_stats), max(gap_stats)), ylab = 'Gap', xlab = 'k', col = 'blue') #col = rgb(0, 0, 1, 0.3))
@@ -108,4 +116,55 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
   write.table(clus_info, file = out_cluster_info)
 
   return(list(optimal_k = opt_k, cluster_info = clus_info, cluster_id =  clus_id, gap_statistics = gap_stats))
+}
+
+cl_clusGap <- function (x, K.max, B = 100, verbose = interactive(), n_clusters = 2, ...){
+    require(doParallel)
+    FUNcluster <- clara
+    stopifnot(is.function(FUNcluster), length(dim(x)) == 2, K.max >= 2, (n <- nrow(x)) >= 1, (p <- ncol(x)) >= 1)
+    if (B != (B. <- as.integer(B)) || (B <- B.) <= 0)  stop("'B' has to be a positive integer")
+    if (is.data.frame(x)) x <- as.matrix(x)
+    ii <- seq_len(n)
+    W.k <- function(X, kk) {
+        clus <- if (kk > 1){
+	  cluster::clara(X, kk)$cluster
+	}else rep.int(1L, nrow(X))
+        0.5 * sum(vapply(split(ii, clus), function(I) {
+            xs <- X[I, , drop = FALSE]
+            sum(dist(xs)/nrow(xs))
+        }, 0))
+    }
+    logW <- E.logW <- SE.sim <- numeric(K.max)
+    if (verbose)
+        cat("Clustering k = 1,2,..., K.max (= ", K.max, "): .. \n", sep = "")
+    for (k in 1:K.max) logW[k] <- log(W.k(x, k))
+    xs <- scale(x, center = TRUE, scale = FALSE)
+    m.x <- rep(attr(xs, "scaled:center"), each = n)
+    V.sx <- svd(xs)$v
+    rng.x1 <- apply(xs %*% V.sx, 2, range)
+
+boot_fun <- function(kmax = K.max){
+        temp_res_vec <- vector(length = K.max)
+        z1 <- apply(rng.x1, 2, function(M, nn) runif(nn, min = M[1], max = M[2]), nn = n)
+        z <- tcrossprod(z1, V.sx) + m.x
+        for (k in 1:K.max) {
+	    temp_res_vec[k] <- log(W.k(z, k))
+        }
+	return(temp_res_vec)
+}
+
+   reg_clust <- makeCluster(n_clusters)
+   registerDoParallel(reg_clust)
+   logWks <- foreach(i = 1:B, .combine = rbind) %dopar% boot_fun(K.max)
+   stopCluster(reg_clust)
+   logWks <- logWks 
+    E.logW <- colMeans(logWks)
+    SE.sim <- sqrt((1 + 1/B) * apply(logWks, 2, var))
+    ses_gap <- logWks
+    for(i in 1:ncol(ses_gap)){
+      ses_gap[, i] <- logWks[, i] - logW[i]
+    }
+    
+    return(list(E.logW - logW, ses_gap))
+#    structure(class = "clusGap", list(Tab = cbind(logW, E.logW, gap = E.logW - logW, SE.sim), n = n, B = B, FUNcluster = FUNcluster))
 }
