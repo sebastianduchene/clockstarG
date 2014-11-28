@@ -1,0 +1,18 @@
+source('../functions.R')
+library(ape)
+library(rgl)
+
+mammal_trees <- read.tree('empirical_mammal.trees')
+#gene_data_table <- read.table('classification_data.csv', head = T, sep = ',', as.is = T)
+#gene_names_keep <- gene_data_table$X[!is.na(gene_data_table$length)]
+
+#mammal_trees <- mammal_trees_all[names(mammal_trees_all) %in% gene_names_keep]
+br_matrix <- get_scaled_brs(mammal_trees)
+write.table(br_matrix, file = 'mammal_br_matrix.txt')
+
+#plot3d(cmdscale(dist(br_matrix), k = 3), type = 's', size = 0.5)
+
+#opt_clusters <- optim_clusters_coord(coord_mat = br_matrix, n_clusters = 10, b_reps = 20, kmax = 100, plot_clustering = T)
+
+#classic_gap <- cl_clusGap(x = br_matrix, K.max = 100, B = 10, n_clusters = 5)
+reg_gap <- optim_clusters_coord(br_matrix, kmax = 150, b_reps = 20, n_clusters = 10, plot_clustering = T)
