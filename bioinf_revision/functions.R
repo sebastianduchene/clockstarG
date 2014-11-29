@@ -1,4 +1,5 @@
 
+
 scaled_brs <- function(tree){
   require(ape)
   lad_tree <- ladderize(tree)
@@ -19,7 +20,7 @@ get_scaled_brs <- function(tree_list){
 
 
 
-optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100, out_cluster_id = 'opt_clus_id.txt', out_cluster_info = 'opt_clusinfo_sbsd.txt', plot_clustering = F){
+optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100, out_cluster_id = 'opt_clus_id.txt', out_cluster_info = 'opt_clusinfo_sbsd.txt', out_gap_stats = 'gap_stats.txt', plot_clustering = F){
 
   require(cluster)
   require(ape)
@@ -105,6 +106,7 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
 	 }
 
   if(plot_clustering){
+ 
     plot(2:(ncol(gap_stats) + 1), gap_stats[1, ], pch = 20, ylim = c(min(gap_stats), max(gap_stats)), ylab = 'Gap', xlab = 'k', col = 'blue') #col = rgb(0, 0, 1, 0.3))
     for(i in 2:nrow(gap_stats)){
       points(jitter(2:(ncol(gap_stats) + 1)), gap_stats[i, ], pch = 20, col = 'blue')# col = rgb(0, 0, 1, 0.5))
@@ -114,7 +116,7 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
 
   write.table(clus_id, file = out_cluster_id)
   write.table(clus_info, file = out_cluster_info)
-
+  write.table(gap_stats, file = out_gap_stats)
   return(list(optimal_k = opt_k, cluster_info = clus_info, cluster_id =  clus_id, gap_statistics = gap_stats))
 }
 

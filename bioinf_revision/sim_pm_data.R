@@ -14,10 +14,10 @@ s_lens <- mammal_data[!is.na(mammal_data$length), 2]
 gene_sim_dat <- cbind(gene_names, bfs_tl, s_lens)
 
 generate_data <- function(PM, f_name){
-pms <- lapply(1:PM, function(x) rlnorm(57, meanlog = -4.6, sdlog = 0.5))
+pms <- lapply(1:PM, function(x) rlnorm(55, meanlog = -4.6, sdlog = 0.5))
 pms <- rep(pms, length(gene_names))[1:nrow(gene_sim_dat)]
 
-tree_topo <- unroot(rtree(30))
+tree_topo <- unroot(read.tree('R2_analyses/empirical_mammal.trees')[[1]])
 trees_sim <- list()
 
 #Generate trees for the mammals
@@ -31,20 +31,25 @@ for(i in 1:nrow(gene_sim_dat)){
 # consider pasting pm names for k > 1
 names(trees_sim) <- gene_sim_dat$gene_names
 write.tree(tree_topo, file = paste0(f_name, '/tree_topo.tree'))
+gene_trees <- list()
 for(i in 1:length(trees_sim)){
   sim_temp <- as.DNAbin(simSeq(trees_sim[[i]], l = gene_sim_dat$s_lens[i], bf = as.numeric(gene_sim_dat[i, c(2, 3, 4, 5)])))
   write.dna(sim_temp, file = paste0(f_name, '/sim_', gene_sim_dat$gene_names[i]), format = 'fasta', nbcol = -1, colsep = '')
+  gene_trees[[i]] <- optim.pml(pml(tree_topo, phyDat(sim_temp)), optEdge = T, optNni = F)$tree
 }
+names(gene_trees) <- gene_sim_dat$gene_names[1:length(gene_trees)]
+class(gene_trees) <- 'multiPhylo'
+write.tree(gene_trees, file = paste0(f_name, '/gene_trs.trees'), tree.names = T)
 return(trees_sim)
 }
 
-k1 <- generate_data(1, 'k1')
-k2 <- generate_data(2, 'k2')
-k5 <- generate_data(5, 'k5')
-k10 <- generate_data(10, 'k10')
-k15 <- generate_data(15, 'k15')
-k100 <- generate_data(100, 'k100')
-kN <- generate_data(431, 'kN')
+k1 <- generate_data(1, 'k1_1')
+k2 <- generate_data(2, 'k2_1')
+k5 <- generate_data(5, 'k5_1')
+k10 <- generate_data(10, 'k10_1')
+k15 <- generate_data(15, 'k15_1')
+k100 <- generate_data(100, 'k100_1')
+kN <- generate_data(431, 'kN_1')
 
 ############################
 
