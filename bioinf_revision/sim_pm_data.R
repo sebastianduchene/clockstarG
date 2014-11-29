@@ -2,6 +2,7 @@
 library(ape)
 library(phangorn)
 library(cluster)
+library(methods)
 source('functions.R')
 
 # 57 branches for unrooted trees of 30 taxa

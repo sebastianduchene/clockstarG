@@ -4,4 +4,8 @@
 
 ## 2. Integrate new distance metric with fast clustering algo in genome_dating
 
-## 3. Re-cluster data with new method. Or test both stats. Which is more robust to k = 1, k = 2, k = 5, k = 10, k = 100, k = N? It needs a modification for k = 2
+## 3. Simulate data and get gene trees with k = 1, k = 2, k = 5, k = 10, k = 15, k = 100, k = N
+
+## 4. Re cluster data with new method
+
+## 5. Repeat 3. and 4. four more times (for a total of 5)
