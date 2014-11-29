@@ -3,7 +3,7 @@
 scaled_brs <- function(tree){
   require(ape)
   lad_tree <- ladderize(tree)
-  br_lens_scaled <- lad_tree$edge.length / sum(lad_tree$edge.length)
+  br_lens_scaled <- round(lad_tree$edge.length / sum(lad_tree$edge.length), 5)
   return(br_lens_scaled)
 }
 
@@ -20,14 +20,14 @@ get_scaled_brs <- function(tree_list){
 
 
 
-optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100, out_cluster_id = 'opt_clus_id.txt', out_cluster_info = 'opt_clusinfo_sbsd.txt', plot_clustering = F){
+optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100, out_cluster_id = 'opt_clus_id.txt', out_cluster_info = 'opt_clusinfo_sbsd.txt', out_gap_stats = 'gap_stats.txt', plot_clustering = F){
 
   require(cluster)
   require(ape)
   require(doParallel)
 
-  clus_fun <- function(x, kmax) sapply(2:(kmax), function(i) clara(x, k = i)$silinfo$avg.width )
-  clus_fun_par <- function(x, kmax) foreach(i = 2:(kmax), .combine = cbind) %dopar% cluster::clara(x, k = i)$silinfo$avg.width
+  clus_fun <- function(x, kmax) sapply(2:(kmax), function(i) pam(x, k = i)$silinfo$avg.width )
+  clus_fun_par <- function(x, kmax) foreach(i = 2:(kmax), .combine = cbind) %dopar% cluster::pam(x, k = i)$silinfo$avg.width
 
   get_boot_rep <- function(coord_mat){
     init_mat <- matrix(NA, nrow = nrow(coord_mat), ncol = ncol(coord_mat))
@@ -75,7 +75,7 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
   gap_stats <- rec_rbind(gap_stats)
   mean_gaps <- sapply(1:ncol(gap_stats), function(x) mean(gap_stats[, x]))
   ci_gaps <- sapply(1:ncol(gap_stats), function(x) sd(gap_stats[, x]) / sqrt(nrow(gap_stats)))
-  high_gaps <- sapply(1:ncol(gap_stats), function(x) quantile(gap_stats[, x], 0.6))#  c(0.975)))
+  high_gaps <- sapply(1:ncol(gap_stats), function(x) quantile(gap_stats[, x], 0.7))#  c(0.975)))
   max_gap <- which.max(mean_gaps)
 
   if(max_gap > 1){
@@ -116,20 +116,20 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
 
   write.table(clus_id, file = out_cluster_id)
   write.table(clus_info, file = out_cluster_info)
-  write.table(gap_stats, file = 'gap_stats.txt')
+  write.table(gap_stats, file = out_gap_stats)
   return(list(optimal_k = opt_k, cluster_info = clus_info, cluster_id =  clus_id, gap_statistics = gap_stats))
 }
 
 cl_clusGap <- function (x, K.max, B = 100, verbose = interactive(), n_clusters = 2, ...){
     require(doParallel)
-    FUNcluster <- clara
+    FUNcluster <- pam
     stopifnot(is.function(FUNcluster), length(dim(x)) == 2, K.max >= 2, (n <- nrow(x)) >= 1, (p <- ncol(x)) >= 1)
     if (B != (B. <- as.integer(B)) || (B <- B.) <= 0)  stop("'B' has to be a positive integer")
     if (is.data.frame(x)) x <- as.matrix(x)
     ii <- seq_len(n)
     W.k <- function(X, kk) {
         clus <- if (kk > 1){
-	  cluster::clara(X, kk)$cluster
+	  cluster::pam(X, kk)$cluster
 	}else rep.int(1L, nrow(X))
         0.5 * sum(vapply(split(ii, clus), function(I) {
             xs <- X[I, , drop = FALSE]

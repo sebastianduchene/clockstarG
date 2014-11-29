@@ -3,7 +3,7 @@
 scaled_brs <- function(tree){
   require(ape)
   lad_tree <- ladderize(tree)
-  br_lens_scaled <- lad_tree$edge.length / sum(lad_tree$edge.length)
+  br_lens_scaled <- round(lad_tree$edge.length / sum(lad_tree$edge.length), 5)
   return(br_lens_scaled)
 }
 
@@ -75,15 +75,15 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
   gap_stats <- rec_rbind(gap_stats)
   mean_gaps <- sapply(1:ncol(gap_stats), function(x) mean(gap_stats[, x]))
   ci_gaps <- sapply(1:ncol(gap_stats), function(x) sd(gap_stats[, x]) / sqrt(nrow(gap_stats)))
-  high_gaps <- sapply(1:ncol(gap_stats), function(x) quantile(gap_stats[, x], 0.6))#  c(0.975)))
+  high_gaps <- sapply(1:ncol(gap_stats), function(x) quantile(gap_stats[, x], 0.9))#  c(0.975)))
   max_gap <- which.max(mean_gaps)
 
   if(max_gap > 1){
     if(mean_gaps[max_gap] > high_gaps[max_gap - 1] & mean_gaps[max_gap] > high_gaps[max_gap + 1]){
       opt_k <- max_gap + 1
-      cluster_pam <- pam(coord_mat, k = opt_k)
-      clus_info  <- cluster_pam$clusinfo
-      clus_id <- cluster_pam$clustering
+      cluster_clara <- clara(coord_mat, k = opt_k)
+      clus_info  <- cluster_clara$clusinfo
+      clus_id <- cluster_clara$clustering
     }else{
       opt_k <- 1
       clus_info <- rep(NA, 5)
@@ -93,9 +93,9 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
   }else if(max_gap == 1){
   	  if(mean_gaps[max_gap] > high_gaps[max_gap + 1]){
 	    opt_k <- 2
-	    cluster_pam <- pam(coord_mat, k = opt_k)
-	    clus_info <- cluster_pam$clusinfo
-	    clus_id <- cluster_pam$clustering
+	    cluster_clara <- clara(coord_mat, k = opt_k)
+	    clus_info <- cluster_clara$clusinfo
+	    clus_id <- cluster_clara$clustering
 	    names(clus_id) <- rownames(coord_mat)
 	  }else{
 	    opt_k <- 1
