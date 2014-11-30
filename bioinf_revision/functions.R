@@ -77,10 +77,16 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
   mean_gaps <- sapply(1:ncol(gap_stats), function(x) mean(gap_stats[, x]))
   ci_gaps <- sapply(1:ncol(gap_stats), function(x) sd(gap_stats[, x]) / sqrt(nrow(gap_stats)))
   high_gaps <- sapply(1:ncol(gap_stats), function(x) quantile(gap_stats[, x], 0.9))#  c(0.975)))
+  low_gaps <- sapply(1:ncol(gap_stats), function(x) quantile(gap_stats[, x], 0.05))
+  gap_difs <- sapply(2:length(mean_gaps), function(x) mean_gaps[x] - mean_gaps[x-1])
   max_gap <- which.max(mean_gaps)
+
+  max_gap_alt <- which.max(gap_difs)
+
 
   if(max_gap > 1){
     if(mean_gaps[max_gap] > high_gaps[max_gap - 1] & mean_gaps[max_gap] > high_gaps[max_gap + 1]){
+
       opt_k <- max_gap + 1
       cluster_clara <- clara(coord_mat, k = opt_k)
       clus_info  <- cluster_clara$clusinfo
@@ -118,7 +124,7 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
   write.table(clus_id, file = out_cluster_id)
   write.table(clus_info, file = out_cluster_info)
   write.table(gap_stats, file = out_gap_stats)
-  return(list(optimal_k = opt_k, cluster_info = clus_info, cluster_id =  clus_id, gap_statistics = gap_stats))
+  return(list(optimal_k = opt_k, cluster_info = clus_info, cluster_id =  clus_id, gap_statistics = gap_stats, alt_gap = gap_difs))
 }
 
 cl_clusGap <- function (x, K.max, B = 100, verbose = interactive(), n_clusters = 2, ...){

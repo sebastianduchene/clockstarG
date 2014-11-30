@@ -10,9 +10,4 @@ mammal_trees <- mammal_trees_all[names(mammal_trees_all) %in% gene_names_keep]
 br_matrix <- get_scaled_brs(mammal_trees)
 write.table(br_matrix, file = 'mammal_br_matrix.txt')
 
-#plot3d(cmdscale(dist(br_matrix), k = 3), type = 's', size = 0.5)
-
-#opt_clusters <- optim_clusters_coord(coord_mat = br_matrix, n_clusters = 10, b_reps = 20, kmax = 100, plot_clustering = T)
-
-#classic_gap <- cl_clusGap(x = br_matrix, K.max = 100, B = 10, n_clusters = 5)
-reg_gap <- optim_clusters_coord(br_matrix, kmax = 60, b_reps = 20, n_clusters = 4, plot_clustering = T)
+reg_gap <- optim_clusters_coord(br_matrix, kmax = 80, b_reps = 50, n_clusters = 4, plot_clustering = T)
