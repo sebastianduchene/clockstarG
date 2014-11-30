@@ -6,7 +6,7 @@ source('functions.R')
 
 # 57 branches for unrooted trees of 30 taxa
 
-pms <- lapply(1:1, function(x) rlnorm(55, meanlog = -4.6, sdlog = 0.2))
+pms <- lapply(1:15, function(x) rlnorm(55, meanlog = -4.6, sdlog = 0.5))
 pms <- rep(pms, 431)
 
 tree_topo <- unroot(rtree(29))
@@ -39,4 +39,4 @@ library(rgl)
 # Test clustering
 
 #tc_test <- cl_clusGap(scaled_brs, K.max = 50, B = 10 , n_clusters = 5)
-tc_coord <- optim_clusters_coord(scaled_brs, n_clusters = 5, plot_clustering = T, kmax = 20, b_reps = 100)
+tc_coord <- optim_clusters_coord(scaled_brs, n_clusters = 5, plot_clustering = T, kmax = 50, b_reps = 100)

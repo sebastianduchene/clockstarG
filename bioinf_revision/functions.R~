@@ -26,8 +26,8 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
   require(ape)
   require(doParallel)
 
-  clus_fun <- function(x, kmax) sapply(2:(kmax), function(i) pam(x, k = i)$silinfo$avg.width )
-  clus_fun_par <- function(x, kmax) foreach(i = 2:(kmax), .combine = cbind) %dopar% cluster::pam(x, k = i)$silinfo$avg.width
+  clus_fun <- function(x, kmax) sapply(2:(kmax), function(i) clara(x, k = i)$silinfo$avg.width )
+  clus_fun_par <- function(x, kmax) foreach(i = 2:(kmax), .combine = cbind) %dopar% cluster::clara(x, k = i)$silinfo$avg.width
 
   get_boot_rep <- function(coord_mat){
     init_mat <- matrix(NA, nrow = nrow(coord_mat), ncol = ncol(coord_mat))
@@ -75,15 +75,15 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
   gap_stats <- rec_rbind(gap_stats)
   mean_gaps <- sapply(1:ncol(gap_stats), function(x) mean(gap_stats[, x]))
   ci_gaps <- sapply(1:ncol(gap_stats), function(x) sd(gap_stats[, x]) / sqrt(nrow(gap_stats)))
-  high_gaps <- sapply(1:ncol(gap_stats), function(x) quantile(gap_stats[, x], 0.7))#  c(0.975)))
+  high_gaps <- sapply(1:ncol(gap_stats), function(x) quantile(gap_stats[, x], 0.9))#  c(0.975)))
   max_gap <- which.max(mean_gaps)
 
   if(max_gap > 1){
     if(mean_gaps[max_gap] > high_gaps[max_gap - 1] & mean_gaps[max_gap] > high_gaps[max_gap + 1]){
       opt_k <- max_gap + 1
-      cluster_pam <- pam(coord_mat, k = opt_k)
-      clus_info  <- cluster_pam$clusinfo
-      clus_id <- cluster_pam$clustering
+      cluster_clara <- clara(coord_mat, k = opt_k)
+      clus_info  <- cluster_clara$clusinfo
+      clus_id <- cluster_clara$clustering
     }else{
       opt_k <- 1
       clus_info <- rep(NA, 5)
@@ -93,9 +93,9 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
   }else if(max_gap == 1){
   	  if(mean_gaps[max_gap] > high_gaps[max_gap + 1]){
 	    opt_k <- 2
-	    cluster_pam <- pam(coord_mat, k = opt_k)
-	    clus_info <- cluster_pam$clusinfo
-	    clus_id <- cluster_pam$clustering
+	    cluster_clara <- clara(coord_mat, k = opt_k)
+	    clus_info <- cluster_clara$clusinfo
+	    clus_id <- cluster_clara$clustering
 	    names(clus_id) <- rownames(coord_mat)
 	  }else{
 	    opt_k <- 1
@@ -122,14 +122,14 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
 
 cl_clusGap <- function (x, K.max, B = 100, verbose = interactive(), n_clusters = 2, ...){
     require(doParallel)
-    FUNcluster <- pam
+    FUNcluster <- clara
     stopifnot(is.function(FUNcluster), length(dim(x)) == 2, K.max >= 2, (n <- nrow(x)) >= 1, (p <- ncol(x)) >= 1)
     if (B != (B. <- as.integer(B)) || (B <- B.) <= 0)  stop("'B' has to be a positive integer")
     if (is.data.frame(x)) x <- as.matrix(x)
     ii <- seq_len(n)
     W.k <- function(X, kk) {
         clus <- if (kk > 1){
-	  cluster::pam(X, kk)$cluster
+	  cluster::clara(X, kk)$cluster
 	}else rep.int(1L, nrow(X))
         0.5 * sum(vapply(split(ii, clus), function(I) {
             xs <- X[I, , drop = FALSE]

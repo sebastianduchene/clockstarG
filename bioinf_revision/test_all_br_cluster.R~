@@ -6,7 +6,7 @@ source('functions.R')
 
 # 57 branches for unrooted trees of 30 taxa
 
-pms <- lapply(1:1, function(x) rlnorm(55, meanlog = -4.6, sdlog = 0.2))
+pms <- lapply(1:15, function(x) rlnorm(55, meanlog = -4.6, sdlog = 0.2))
 pms <- rep(pms, 431)
 
 tree_topo <- unroot(rtree(29))
@@ -15,7 +15,7 @@ trees_sim <- list()
 #Generate 100 trees with the 10 pms but different absolute rates
 for(i in 1:431){
       tr_temp <- tree_topo
-      tr_temp$edge.length <- abs(pms[[i]] + rnorm(55, 1e-3, 1e-6) ) * sample(c(0.5, 1, 1.5, 3), 1)  
+      tr_temp$edge.length <- abs(pms[[i]] + rnorm(55, 1e-3, 1e-3) ) * sample(c(0.5, 1, 1.5, 3), 1)  
       trees_sim[[i]] <- tr_temp
 }
 
@@ -39,4 +39,4 @@ library(rgl)
 # Test clustering
 
 #tc_test <- cl_clusGap(scaled_brs, K.max = 50, B = 10 , n_clusters = 5)
-tc_coord <- optim_clusters_coord(scaled_brs, n_clusters = 5, plot_clustering = T, kmax = 20, b_reps = 100)
+tc_coord <- optim_clusters_coord(scaled_brs, n_clusters = 5, plot_clustering = T, kmax = 50, b_reps = 100)
