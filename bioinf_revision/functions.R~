@@ -124,6 +124,7 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
   write.table(clus_id, file = out_cluster_id)
   write.table(clus_info, file = out_cluster_info)
   write.table(gap_stats, file = out_gap_stats)
+  write.table(gap_difs, file = 'gap_difs.txt')
   return(list(optimal_k = opt_k, cluster_info = clus_info, cluster_id =  clus_id, gap_statistics = gap_stats, alt_gap = gap_difs))
 }
 
