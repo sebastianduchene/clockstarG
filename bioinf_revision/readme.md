@@ -15,7 +15,7 @@ k1 Y
 k2 Y
 k5 Y
 k10 Y
-k13 RUNNING
+k13 Y
 k100 Y
 kN-1 RUN
 kN Y
