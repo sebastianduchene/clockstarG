@@ -61,9 +61,10 @@ return(trees_sim)
 #k2 <- generate_data(2, 'k2_1')
 #k5 <- generate_data(5, 'k5_1')
 #k10 <- generate_data(10, 'k10_1')
-k15 <- generate_data(15, 'k15_1')
+#k15 <- generate_data(15, 'k15_1')
 #k100 <- generate_data(100, 'k100_1')
-kN <- generate_data(431, 'kN_1')
+k200 <- generate_data(100, 'k200_1')
+#kN <- generate_data(431, 'kN_1')
 
 ############################
 
