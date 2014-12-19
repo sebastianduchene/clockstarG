@@ -1,0 +1,1 @@
+gdata <- read.table('gap_stats.txt', head = T)
