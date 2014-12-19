@@ -17,7 +17,7 @@ k5 Y
 k10 Y
 k13 Y
 k100 Y
-kN-1 RUN
+k400 RUNNING
 kN Y
 
 #Sim 2 status

@@ -85,7 +85,7 @@ optim_clusters_coord <- function(coord_mat,  n_clusters = 2, kmax , b_reps = 100
 
 
   if(max_gap > 1){
-    if(mean_gaps[max_gap] > high_gaps[max_gap - 1] & mean_gaps[max_gap] > high_gaps[max_gap + 1]){
+    if(mean_gaps[max_gap] > high_gaps[max_gap - 1] ){ #& mean_gaps[max_gap] > high_gaps[max_gap + 1]){
 
       opt_k <- max_gap + 1
       cluster_clara <- clara(coord_mat, k = opt_k)
