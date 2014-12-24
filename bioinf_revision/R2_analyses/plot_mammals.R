@@ -1,4 +1,5 @@
-gdata <- read.table('gap_stats.txt', head = T)
+gdata <- as.matrix(read.table('gap_stats.txt', head = T))
+gdata[, 7] <- gdata[, 7] * 2
 gdata[, 8] <- gdata[, 8] * 2
 gdata[, 9] <- gdata[, 9] * 2
 gdata[, 10] <- gdata[, 10] * 2
@@ -6,14 +7,42 @@ gdata[, 11] <- gdata[, 11] * 2
 gdata[, 12] <- gdata[, 12] * 2
 gdata[, 13] <- gdata[, 13] * 2
 
+k1 <- as.matrix(read.table('gap_stats_k1.txt', head = T))
 
+#pdf('test_fig2.pdf', useDingbats = F, width = 7, height = 9)
+par(list(mfrow = c(2, 1), mar = c(2, 2, 0.5, 2)))
 
 line_mean <- colMeans(gdata)
-
-plot(2:200, gdata[1, ], pch = 20, col = rgb(0, 0, 0.5, 0.1), ylim = range(gdata))
-
+plot(2:100, gdata[1, 1:99], pch = 20, col = rgb(0, 0, 0, 0.03), ylim = range(cbind(gdata, k1)))
 for(i in 1:nrow(gdata)){
-      points(2:200, gdata[i, ], pch = 20, col = rgb(0, 0, 0.5, 0.1))
+      points(jitter(2:100), gdata[i, 1:99], pch = 20, col = rgb(0, 0, 0, 0.05))
 }
+lines(2:100, line_mean[1:99], col = 'black', lwd = 2)
 
-lines(2:200, line_mean, col = 'red', lwd = 2)
+plot(2:100, k1[1, 1:99], pch = 20, col = rgb(0, 0, 0, 0.05), ylim = range(cbind(gdata, k1)))
+k1_mean <- colMeans(k1)
+for(i in 1:nrow(k1)){
+      points(jitter(2:100), k1[i, 1:99], pch = 20, col = rgb(0, 0, 0, 0.03))
+}
+lines(2:100, k1_mean[1:99], col = 'black', lwd = 2)
+
+#dev.off()
+
+
+
+
+pdf('mammal_all_dat.pdf', useDingbats = F, width = 7, height = 4.5)
+line_mean <- colMeans(gdata)
+plot(2:430, gdata[1, ], pch = 20, col = rgb(0, 0, 0, 0.5), ylim = range(cbind(gdata, k1)))
+for(i in sample(1:100, 10)){
+      points(jitter(2:430), gdata[i, ], pch = 20, col = rgb(0, 0, 0.5, 0.5))
+}
+lines(2:430, line_mean, col = 'red', lwd = 2)
+
+#plot(2:430, k1[1, ], pch = 20, col = rgb(0, 0, 0, 0.05), ylim = range(cbind(gdata, k1)))
+#k1_mean <- colMeans(k1)
+#for(i in 1:nrow(k1)){
+#      points(jitter(2:430), k1[i, ], pch = 20, col = rgb(0, 0, 0.5, 0.03))
+#}
+#lines(2:430, k1_mean, col = 'red', lwd = 2)
+dev.off()

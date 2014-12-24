@@ -26,6 +26,12 @@ clean_data_vars <- clean_data_vars[-which(is.na(clean_data_vars$g_name)), ]
 
 cat('fitting RF\n')
 rf1 <- randomForest(cluster ~ cg_cont + t_length + g_length, data = clean_data_vars, importance = T, maxnodes = 4 , ntree = 30)
+#40% oob error rate
+#         MeanDecreaseAccuracy MeanDecreaseGini
+#cg_cont            -0.7652881         3.150150
+#t_length           -0.1578527         4.162437
+#g_length           -1.4346393         3.356445
+
 
 library(tree)
 
@@ -33,3 +39,6 @@ cat('Fitting class tree\n')
 tr1 <- tree(cluster ~ cg_cont + t_length + g_length, data = clean_data_vars)
 tr_1.dev <- cv.tree(tr1)
 tr_1.p <- prune.misclass(tr1, best = 2)
+
+#misclass 37.6%
+#vars retained tlength, cgcont
