@@ -1,0 +1,13 @@
+* installing *source* package ‘ClockstarRG’ ...
+** R
+** preparing package for lazy loading
+** help
+Warning: /Users/sebastianducheneAIr/Desktop/sandbox/clockstarG/ClockstarRG/man/get_scaled_brs.Rd:3: All text must be in a section
+Warning: /Users/sebastianducheneAIr/Desktop/sandbox/clockstarG/ClockstarRG/man/optim_clusters_coord.Rd:3: All text must be in a section
+Warning: /Users/sebastianducheneAIr/Desktop/sandbox/clockstarG/ClockstarRG/man/scaled_brs.Rd:19: unexpected section header '\author'
+Warning: /Users/sebastianducheneAIr/Desktop/sandbox/clockstarG/ClockstarRG/man/scaled_brs.Rd:23: unexpected END_OF_INPUT '
+'
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (ClockstarRG)

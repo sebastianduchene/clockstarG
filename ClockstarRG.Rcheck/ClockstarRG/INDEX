@@ -1,0 +1,7 @@
+ClockstarRG-package     ClockstaR-G: ClockstaR for genomic data sets
+get_scaled_brs          get_scaled_brs: Obtain a matrix with scaled
+                        branch lengths for a list of trees of class
+                        multiphylo.
+optim_clusters_coord    Select optimal number of clusters using the Gap
+                        statistic
+scaled_brs              Scale branch lengths of tree.
