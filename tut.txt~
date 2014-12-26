@@ -1,0 +1,27 @@
+# ClockstaR-G
+
+```
+install.packages('devtools')
+install_github('clockstar', 'sebastianduchene')
+```
+
+```
+optim.trees.interactive()
+```
+
+```{r}
+gene_trees <- read.tree('test_files/gene_trs.trees')
+gene_trees
+```
+
+```{r}
+scaled_brlens <- get_scaled_brs(gene_trees)
+scaled_brlens[1:5, 1:5]
+dim(scaled_brlens)
+```
+
+```{r}
+pms_gap <- optim_clusters_coord(scaled_brlens, n_clusters = 2, kmax = 19, b_reps = 50, out_cluster_id = 'cluster_id.txt', out_cluster_info = 'cluster_info.txt', out_gap_stats = 'gap_stats.txt', plot_clustering = T)
+```
+
+
