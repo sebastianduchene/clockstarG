@@ -86,21 +86,21 @@ The final step is to run the clustering algorithm. There are many different algo
 
 To select the optimal number of pacemakers for this data, use the function optim_clusters_coord. This function takes several arguments:
 
-- scaled_brlens: The matrix with scaled branch lengths obtained above.
+- **scaled_brlens:** The matrix with scaled branch lengths obtained above.
 
-- n_clusters: This is the number of computing clusters. Not to be confused with the number of clusters in the data. In multicore machines this can considerably reduce computation time. In this example we use 2 computing clusters.
+- **n_clusters:** This is the number of computing clusters. Not to be confused with the number of clusters in the data. In multicore machines this can considerably reduce computation time. In this example we use 2 computing clusters.
 
-- kmax: This is the maximum number of pacemakers to fit to the data. This should be an integer of maximum N-1. Using large numbers of N for large data sets can take a long time. 
+- **kmax:** This is the maximum number of pacemakers to fit to the data. This should be an integer of maximum N-1. Using large numbers of N for large data sets can take a long time. 
 
-- b_reps: Number of bootstrap replicates. In this example. 
+- **b_reps:** Number of bootstrap replicates. In this example. 
 
-- out_cluster_id: Name of the file to save the cluster assignment.
+- **out_cluster_id:** Name of the file to save the cluster assignment.
 
-- out_cluster_info: Name of the file to save cluster information, this is cluster size, maximum dissimilarity, average dissimilarity, and isolation.
+- **out_cluster_info:** Name of the file to save cluster information, this is cluster size, maximum dissimilarity, average dissimilarity, and isolation.
 
-- out_gap_stats: Name of file to save the gap statistics.
+- **out_gap_stats:** Name of file to save the gap statistics.
 
-- plot_clustering: Use T to print the Gap statistics in the current graphics device.
+- **plot_clustering:** Use T to print the Gap statistics in the current graphics device.
  
 
 
@@ -201,6 +201,6 @@ plot(pms_pam_cluster)
 
 #References
 
-Duchene, S., Molak, M., & Ho, S. Y. (2014b). ClockstaR: choosing the number of relaxed-clock models in molecular phylogenetic analysis. *Bioinformatics* 30 (7): 1017-1019.
+Duchene, S., Molak, M., & Ho, S. Y. W. (2014) ClockstaR: choosing the number of relaxed-clock models in molecular phylogenetic analysis. *Bioinformatics* 30 (7): 1017-1019.
 
-Duchene, S. & Ho, S. Y. (Submitted)
+Duchene, S. & Ho, S. Y. W. (Submitted)
