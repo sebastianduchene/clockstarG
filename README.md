@@ -109,56 +109,56 @@ pms_gap <- optim_clusters_coord(scaled_brlens, n_clusters = 2, kmax = 19, b_reps
 ```
 
 ```
-## bootstrap replicate 1 the average silhouete width is 0.02301519 
-## bootstrap replicate 2 the average silhouete width is 0.0193534 
-## bootstrap replicate 3 the average silhouete width is 0.02178557 
-## bootstrap replicate 4 the average silhouete width is 0.01172652 
-## bootstrap replicate 5 the average silhouete width is 0.0183262 
-## bootstrap replicate 6 the average silhouete width is 0.02142054 
-## bootstrap replicate 7 the average silhouete width is 0.01760833 
-## bootstrap replicate 8 the average silhouete width is 0.0229922 
-## bootstrap replicate 9 the average silhouete width is 0.01783395 
-## bootstrap replicate 10 the average silhouete width is 0.01875362 
-## bootstrap replicate 11 the average silhouete width is 0.02178064 
-## bootstrap replicate 12 the average silhouete width is 0.01449445 
-## bootstrap replicate 13 the average silhouete width is 0.01657045 
-## bootstrap replicate 14 the average silhouete width is 0.02107379 
-## bootstrap replicate 15 the average silhouete width is 0.01850983 
-## bootstrap replicate 16 the average silhouete width is 0.02166672 
-## bootstrap replicate 17 the average silhouete width is 0.02190925 
-## bootstrap replicate 18 the average silhouete width is 0.02309035 
-## bootstrap replicate 19 the average silhouete width is 0.01903867 
-## bootstrap replicate 20 the average silhouete width is 0.02049926 
-## bootstrap replicate 21 the average silhouete width is 0.02003938 
-## bootstrap replicate 22 the average silhouete width is 0.01549674 
-## bootstrap replicate 23 the average silhouete width is 0.02371573 
-## bootstrap replicate 24 the average silhouete width is 0.02008765 
-## bootstrap replicate 25 the average silhouete width is 0.01562022 
-## bootstrap replicate 26 the average silhouete width is 0.01942129 
-## bootstrap replicate 27 the average silhouete width is 0.01872002 
-## bootstrap replicate 28 the average silhouete width is 0.01550809 
-## bootstrap replicate 29 the average silhouete width is 0.01229042 
-## bootstrap replicate 30 the average silhouete width is 0.01976348 
-## bootstrap replicate 31 the average silhouete width is 0.02289252 
-## bootstrap replicate 32 the average silhouete width is 0.02285354 
-## bootstrap replicate 33 the average silhouete width is 0.01740138 
-## bootstrap replicate 34 the average silhouete width is 0.02041699 
-## bootstrap replicate 35 the average silhouete width is 0.02011717 
-## bootstrap replicate 36 the average silhouete width is 0.01970765 
-## bootstrap replicate 37 the average silhouete width is 0.02073161 
-## bootstrap replicate 38 the average silhouete width is 0.01669965 
-## bootstrap replicate 39 the average silhouete width is 0.02090315 
-## bootstrap replicate 40 the average silhouete width is 0.02090306 
-## bootstrap replicate 41 the average silhouete width is 0.02210389 
-## bootstrap replicate 42 the average silhouete width is 0.01689828 
-## bootstrap replicate 43 the average silhouete width is 0.02127105 
-## bootstrap replicate 44 the average silhouete width is 0.0213042 
-## bootstrap replicate 45 the average silhouete width is 0.0188389 
-## bootstrap replicate 46 the average silhouete width is 0.01623023 
-## bootstrap replicate 47 the average silhouete width is 0.01763687 
-## bootstrap replicate 48 the average silhouete width is 0.02363953 
-## bootstrap replicate 49 the average silhouete width is 0.02141031 
-## bootstrap replicate 50 the average silhouete width is 0.02096194
+## bootstrap replicate 1 the average silhouete width is 0.01842802 
+## bootstrap replicate 2 the average silhouete width is 0.01650962 
+## bootstrap replicate 3 the average silhouete width is 0.02344216 
+## bootstrap replicate 4 the average silhouete width is 0.01623518 
+## bootstrap replicate 5 the average silhouete width is 0.01917889 
+## bootstrap replicate 6 the average silhouete width is 0.02372535 
+## bootstrap replicate 7 the average silhouete width is 0.01674285 
+## bootstrap replicate 8 the average silhouete width is 0.0244366 
+## bootstrap replicate 9 the average silhouete width is 0.02083868 
+## bootstrap replicate 10 the average silhouete width is 0.02017217 
+## bootstrap replicate 11 the average silhouete width is 0.02074904 
+## bootstrap replicate 12 the average silhouete width is 0.01423596 
+## bootstrap replicate 13 the average silhouete width is 0.02281579 
+## bootstrap replicate 14 the average silhouete width is 0.01988809 
+## bootstrap replicate 15 the average silhouete width is 0.01382473 
+## bootstrap replicate 16 the average silhouete width is 0.01751823 
+## bootstrap replicate 17 the average silhouete width is 0.02138685 
+## bootstrap replicate 18 the average silhouete width is 0.01583813 
+## bootstrap replicate 19 the average silhouete width is 0.02547178 
+## bootstrap replicate 20 the average silhouete width is 0.01532817 
+## bootstrap replicate 21 the average silhouete width is 0.01710071 
+## bootstrap replicate 22 the average silhouete width is 0.01849372 
+## bootstrap replicate 23 the average silhouete width is 0.01565379 
+## bootstrap replicate 24 the average silhouete width is 0.01633723 
+## bootstrap replicate 25 the average silhouete width is 0.01586342 
+## bootstrap replicate 26 the average silhouete width is 0.02310333 
+## bootstrap replicate 27 the average silhouete width is 0.02572832 
+## bootstrap replicate 28 the average silhouete width is 0.01518733 
+## bootstrap replicate 29 the average silhouete width is 0.01111652 
+## bootstrap replicate 30 the average silhouete width is 0.01729826 
+## bootstrap replicate 31 the average silhouete width is 0.0193187 
+## bootstrap replicate 32 the average silhouete width is 0.02020221 
+## bootstrap replicate 33 the average silhouete width is 0.01855755 
+## bootstrap replicate 34 the average silhouete width is 0.02066639 
+## bootstrap replicate 35 the average silhouete width is 0.01380485 
+## bootstrap replicate 36 the average silhouete width is 0.02077341 
+## bootstrap replicate 37 the average silhouete width is 0.02158177 
+## bootstrap replicate 38 the average silhouete width is 0.02014206 
+## bootstrap replicate 39 the average silhouete width is 0.01596045 
+## bootstrap replicate 40 the average silhouete width is 0.01409982 
+## bootstrap replicate 41 the average silhouete width is 0.02168796 
+## bootstrap replicate 42 the average silhouete width is 0.01922657 
+## bootstrap replicate 43 the average silhouete width is 0.02103089 
+## bootstrap replicate 44 the average silhouete width is 0.01795039 
+## bootstrap replicate 45 the average silhouete width is 0.01963858 
+## bootstrap replicate 46 the average silhouete width is 0.02055164 
+## bootstrap replicate 47 the average silhouete width is 0.01848333 
+## bootstrap replicate 48 the average silhouete width is 0.01761819 
+## bootstrap replicate 49 the average silhouete width is 0.0108715 
+## bootstrap replicate 50 the average silhouete width is 0.01823451
 ```
 
 ![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
@@ -394,3 +394,9 @@ plot(pms_pam_cluster)
 
 ![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
 
+
+#References
+
+Duchene, S., Molak, M., & Ho, S. Y. (2014b). ClockstaR: choosing the number of relaxed-clock models in molecular phylogenetic analysis. *Bioinformatics* 30 (7): 1017-1019.
+
+Duchene, S. & Ho, S. Y. (Submitted)
