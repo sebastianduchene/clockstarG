@@ -1,28 +1,108 @@
 # ClockstaR-G
 
+
+This is the repository for ClockstaR-G, an implementation of [ClockstaR](https://github.com/sebastianduchene/clockstar) for large data sets. It is more difficult to use than ClockstaR. For data sets with fewer than 20 genes, I suggest using the starndard version of ClockstaR.
+
+Please follow the tutorial below for instructions on how to use. It assumes some basic R knowledge:
+
+The program can be installed directly from github. This requres the devtools package, which can be downlaoded from CRAN. 
+
+
 ```
 install.packages('devtools')
-install_github('clockstar', 'sebastianduchene')
+library(devtools)
 ```
+
+devtools has a function to download packages directly from github. This can be used to download ClockstaR and ClockstaR-G:
+
+```
+install_github('sebastianduchene/clockstar')
+install_github('sebastianduchene/clockstarg')
+```
+
+Load ClockstaR-G. This will automatically load any necessary dependencies:
+
+```{r}
+library(ClockstaRG)
+```
+
+In this example we will use a simulated data set from Duchene and Ho (Pending.). This data sets consists of 431 genes with 10 pacemakers. To see the data download this repository by clicking on 'Download as a zip file' on the right of this page. After downloading the zip file, uncompress it and open the folder called test_files. It contains 431 fasta files, for each individual gene, one the gene tree topology (tree_topo.tree), and the individual gene trees (gene_trs.trees). 
+
+The trees are in newick format. The gene trees are obtained by optimising the branch lengths of the tree topology for each gene, such that all gene trees have the same topology but different branch lengths. 
+
+Open one of the fasta files, tree_topo.tree, and gene_trs.trees in a text editor. Note that tree_topo.tree contains a single tree. The branch lengths are arbitrary and are only used as stsrting values in the optimisation. gene_trs.trees contains 431 trees. The names of the trees correspond to the individual genes.
+
+ClockstaR-G does not estimate the gene trees, but these can also be obtained from R by using the ClockstaR2 function optim.trees.interactive(). This can be slow for large data sets, so it is usually better to use other programs, such as GARLI or RaXML. If the data set is not very large, type the code below in the prompt and follow the instructions. However, this would take very long for this tutorial, so we will skip this step.
 
 ```
 optim.trees.interactive()
 ```
+
+The gene trees can be read into R and stored in 'gene_trees' using the following code. It is important to make sure that the format matches that of the example file here, including the gene names for each of the gene trees.
 
 ```{r}
 gene_trees <- read.tree('test_files/gene_trs.trees')
 gene_trees
 ```
 
+The next step is to make a matrix where the rows are the individual gene trees, and the columns are the scaled branch lengths. This can be done using the code below:
+
 ```{r}
 scaled_brlens <- get_scaled_brs(gene_trees)
+```
+
+The matrix is called 'scaled_brlens'. To inspect it use the code below:
+
+```{r}
 scaled_brlens[1:5, 1:5]
 dim(scaled_brlens)
 ```
 
-check that it works for k = 4
+The final step is to run the clustering algorithm. There are many different algorithms, and in some cases the results can differ. ClockstaR and ClockstaR-G use the Gap statistic, which appears to perform well for phylogenetic trees. 
+
+To select the optimal number of pacemakers for this data, use the function optim_clusters_coord. This function takes several arguments:
+
+- scaled_brlens: The matrix with scaled branch lengths obtained above.
+
+- n_clusters: This is the number of computing clusters. Not to be confused with the number of clusters in the data. In multicore machines this can considerably reduce computation time. In this example we use 2 computing clusters.
+
+- kmax: This is the maximum number of pacemakers to fit to the data. This should be an integer of maximum N-1. Using large numbers of N for large data sets can take a long time. 
+
+- b_reps: Number of bootstrap replicates. In this example. 
+
+- out_cluster_id: Name of the file to save the cluster assignment.
+
+- out_cluster_info: Name of the file to save cluster information, this is cluster size, maximum dissimilarity, average dissimilarity, and isolation.
+
+- out_gap_stats: Name of file to save the gap statistics.
+
+- plot_clustering: Use T to print the Gap statistics in the current graphics device.
+ 
+
 ```{r}
 pms_gap <- optim_clusters_coord(scaled_brlens, n_clusters = 2, kmax = 19, b_reps = 50, out_cluster_id = 'cluster_id.txt', out_cluster_info = 'cluster_info.txt', out_gap_stats = 'gap_stats.txt', plot_clustering = T)
 ```
 
 
+The plot shows the maximum Gap for the optimal *k*. Open the files 'cluster_id.txt', 'cluster_info.txt', and 'gap_stats.txt' in a text editor to see the results. They can also be inspected by looking at the items stored in pms_gap:
+
+```{r}
+pms_gap$optimal_k
+pms_gap$cluster_info
+pms_gap$cluster_id
+```
+
+
+Alternatively, it is possible to use the function clusGap from the cluster package as shown below. To find out how to use this function use ?clusGap.
+
+```{r}
+pms_pam_cluster <- clusGap(scaled_brlens, FUNcluster = clara, K.max = 19, B = 50)
+plot(pms_pam_cluster)
+```
+
+
+#References
+
+Duchene, S., Molak, M., & Ho, S. Y. (2014b). ClockstaR: choosing the number of relaxed-clock models in molecular phylogenetic analysis. *Bioinformatics* 30 (7): 1017-1019.
+
+Duchene, S. & Ho, S. Y. (Submitted)
