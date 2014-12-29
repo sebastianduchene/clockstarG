@@ -1,6 +1,0 @@
-# ClockstaR-G tutorial
-
-
-```{r}
-
-```
